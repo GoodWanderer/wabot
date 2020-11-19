@@ -5,14 +5,12 @@ import datetime
 class WABot():
     def __init__(self, json):
         self.json = json
-        print('\n\n'+"тест"+'\n\n')
         self.dict_messages = json['data']
         self.APIUrl = 'https://api-whatsapp.io/api/'
         self.token = 'vfgs0ezuk4tcqxs709zis3uv677omv09mkxorwkhax='
         self.id = 'ceae53d7-8c29-4a80-a6f9-8a548f303a83/'
 
     def send_requests(self, method, data):
-        print("send_requests")
         url = f"{self.APIUrl}{self.id}{method}?token={self.token}"
         headers = {'Content-type': 'application/json'}
         answer = requests.post(url, data=json.dumps(data), headers=headers)
@@ -20,7 +18,6 @@ class WABot():
         return answer.json()
 
     def send_message(self, chatId, text):
-        print('\n\n'+chatId+'\n\n')
         data = {"chatId": chatId,
                 "body": text}
 
@@ -44,7 +41,7 @@ class WABot():
         if self.dict_messages != []:
             for message in self.dict_messages:
                 text = message['body'].split()
-                print('\n\n'+message['body'])
+                print('\n\n'+message['body']+'\n\n')
                 if not message['fromMe']:
                     id = message['chatId']
                     print(text[0].lower())
