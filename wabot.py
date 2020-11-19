@@ -40,7 +40,7 @@ class WABot():
     def processing(self):
         if self.dict_messages != []:
             for message in self.dict_messages:
-                text = message['body'].split()
+                text = message['body']
                 print('\n\n'+message['body']+'\n\n')
                 if not message['fromMe']:
                     id = message['chatId']
