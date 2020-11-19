@@ -4,8 +4,6 @@ import json
 
 app = Flask(__name__)
 
-print('gg')
-
 @app.route('/', methods=['POST'])
 def home():
     if request.method == 'POST':
