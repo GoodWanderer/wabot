@@ -9,10 +9,11 @@ class WABot():
         self.dict_messages = json['data']
         self.APIUrl = 'https://api-whatsapp.io/api/'
         self.token = 'vfgs0ezuk4tcqxs709zis3uv677omv09mkxorwkhax='
+        self.id = 'ceae53d7-8c29-4a80-a6f9-8a548f303a83/'
 
     def send_requests(self, method, data):
         print("send_requests")
-        url = f"{self.APIUrl}{method}?token={self.token}"
+        url = f"{self.APIUrl}{self.id}{method}?token={self.token}"
         headers = {'Content-type': 'application/json'}
         answer = requests.post(url, data=json.dumps(data), headers=headers)
         print("send_requests")
