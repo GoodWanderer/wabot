@@ -30,19 +30,14 @@ class WABot():
     def welcome(self, chatId, noWelcome=False):
         welcome_string = ''
         if (noWelcome == False):
-            welcome_string = "WhatsApp Demo Bot Python\n"
-            print('\n\nwelcome\n\n')
+            welcome_string = "Информация о вебинаре\n"
         else:
-            welcome_string = """Incorrect command
-        Commands:
-        1. chatId - show ID of the current chat
-        2. time - show server time
-        3. me - show your nickname
-        4. file [format] - get a file. Available formats: doc/gif/jpg/png/pdf/mp3/mp4
-        5. ptt - get a voice message
-        6. geo - get a location
-        7. group - create a group with the bot"""
+            welcome_string = """Для того что бы получить информацию о вебенаре, отправьте:\n "Хотел бы узнать о вебинаре" """
 
+        return self.send_message(chatId, welcome_string)
+
+    def admin(self, chatId):
+        welcome_string = "Введите пароль\n"
         return self.send_message(chatId, welcome_string)
 
     def processing(self):
@@ -51,23 +46,23 @@ class WABot():
                 text = message['body'].split()
                 if not message['fromMe']:
                     id = message['chatId']
-                    if text[0].lower() == 'hi':
-                        print("\n\nНу хоть проверка есть))\n\n")
+                    if text[0].lower() == 'Хотел бы узнать о вебинаре':
                         return self.welcome(id)
-                    elif text[0].lower() == 'time':
-                        return self.time(id)
-                    elif text[0].lower() == 'chatId':
-                        return self.show_chat_id(id)
-                    elif text[0].lower() == 'me':
-                        return self.me(id, message['senderName'])
-                    elif text[0].lower() == 'file':
-                        return self.file(id, text[1])
-                    elif text[0].lower() == 'ptt':
-                        return self.ptt(id)
-                    elif text[0].lower() == 'geo':
-                        return self.geo(id)
-                    elif text[0].lower() == 'group':
-                        return self.group(message['author'])
+
+                    elif text[0].lower() == '/admin':
+                        return self.admin(id)
+                    # elif text[0].lower() == 'chatId':
+                    #     return self.show_chat_id(id)
+                    # elif text[0].lower() == 'me':
+                    #     return self.me(id, message['senderName'])
+                    # elif text[0].lower() == 'file':
+                    #     return self.file(id, text[1])
+                    # elif text[0].lower() == 'ptt':
+                    #     return self.ptt(id)
+                    # elif text[0].lower() == 'geo':
+                    #     return self.geo(id)
+                    # elif text[0].lower() == 'group':
+                    #     return self.group(message['author'])
                     else:
                         return self.welcome(id, True)
                 else:
