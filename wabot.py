@@ -5,7 +5,9 @@ import datetime
 class WABot():
     def __init__(self, json):
         self.json = json
-        self.dict_messages = json['message']
+        print(json)
+        print(json['messages'])
+        self.dict_messages = json['messages']
         self.APIUrl = 'https://api-whatsapp.io/api'
         self.token = 'wvrpt9ragocjek4ym4kjnn03xop6f3aeaqhtoz5ar45='
 
