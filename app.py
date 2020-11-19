@@ -8,7 +8,7 @@ app = Flask(__name__)
 def home():
     if request.method == 'POST':
         bot = WABot(request.json)
-        print("Тут тип что то будет:\n\n"+bot+"\n\n")
+        print("Тут тип что то будет:\n\n"+str(bot)+"\n\n")
         return bot.processing()
 
 if(__name__) == '__main__':
