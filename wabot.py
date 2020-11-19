@@ -44,8 +44,10 @@ class WABot():
         if self.dict_messages != []:
             for message in self.dict_messages:
                 text = message['body'].split()
+                print('\n\n'+message['body'])
                 if not message['fromMe']:
                     id = message['chatId']
+                    print(text[0].lower())
                     if text[0].lower() == 'Хотел узнать':
                         return self.welcome(id)
 
