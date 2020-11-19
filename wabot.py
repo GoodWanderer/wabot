@@ -46,7 +46,7 @@ class WABot():
                 text = message['body'].split()
                 if not message['fromMe']:
                     id = message['chatId']
-                    if text[0].lower() == 'Хотел бы узнать о вебинаре':
+                    if text[0].lower() == 'gg':
                         return self.welcome(id)
 
                     elif text[0].lower() == '/admin':
