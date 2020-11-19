@@ -15,6 +15,7 @@ class WABot():
         url = f"{self.APIUrl}{method}?token={self.token}"
         headers = {'Content-type': 'application/json'}
         answer = requests.post(url, data=json.dumps(data), headers=headers)
+        print("send_requests")
         return answer.json()
 
     def send_message(self, chatId, text):
