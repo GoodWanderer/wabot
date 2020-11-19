@@ -68,6 +68,6 @@ class WABot():
                     elif text[0].lower() == 'group':
                         return self.group(message['author'])
                     else:
-                        #return self.welcome(id, True)
+                        return self.welcome(id, True)
                 else:
                     return 'NoCommand'
