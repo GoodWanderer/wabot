@@ -8,7 +8,7 @@ class WABot():
         print('\n\n'+"тест"+'\n\n')
         self.dict_messages = json['data']
         self.APIUrl = 'https://api-whatsapp.io/api'
-        self.token = 'wvrpt9ragocjek4ym4kjnn03xop6f3aeaqhtoz5ar45='
+        self.token = 'vfgs0ezuk4tcqxs709zis3uv677omv09mkxorwkhax='
 
     def send_requests(self, method, data):
         print("send_requests")
@@ -18,7 +18,7 @@ class WABot():
         return answer.json()
 
     def send_message(self, chatId, text):
-        print('\n\nsend_message\n\n')
+        print('\n\nchatId\n\n')
         data = {"chatId": chatId,
                 "body": text}
 
