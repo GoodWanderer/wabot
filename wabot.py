@@ -11,12 +11,14 @@ class WABot():
         self.token = 'wvrpt9ragocjek4ym4kjnn03xop6f3aeaqhtoz5ar45='
 
     def send_requests(self, method, data):
+        print("send_requests")
         url = f"{self.APIUrl}{method}?token={self.token}"
         headers = {'Content-type': 'application/json'}
         answer = requests.post(url, data=json.dumps(data), headers=headers)
         return answer.json()
 
     def send_message(self, chatId, text):
+        print('\n\nsend_message\n\n')
         data = {"chatId": chatId,
                 "body": text}
 
@@ -27,6 +29,7 @@ class WABot():
         welcome_string = ''
         if (noWelcome == False):
             welcome_string = "WhatsApp Demo Bot Python\n"
+            print('\n\nwelcome\n\n')
         else:
             welcome_string = """Incorrect command
         Commands:
