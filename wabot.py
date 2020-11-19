@@ -42,7 +42,7 @@ class WABot():
     def processing(self):
         if self.dict_messages != []:
             for message in self.dict_messages:
-                text = message['data'].split()
+                text = message['body']
                 if not message['fromMe']:
                     id = message['chatId']
                     if text[0].lower() == 'hi':
