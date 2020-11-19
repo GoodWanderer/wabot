@@ -45,10 +45,10 @@ class WABot():
                 if not message['fromMe']:
                     id = message['chatId']
                     print(text[0].lower())
-                    if text[0].lower() == 'Хотел узнать':
+                    if text.lower() == 'Хотел узнать':
                         return self.welcome(id)
 
-                    elif text[0].lower() == '/admin':
+                    elif text.lower() == '/admin':
                         return self.admin(id)
                     # elif text[0].lower() == 'chatId':
                     #     return self.show_chat_id(id)
