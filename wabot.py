@@ -5,8 +5,7 @@ import datetime
 class WABot():
     def __init__(self, json):
         self.json = json
-        print(json['type'])
-        self.dict_messages = json['type']
+        self.dict_messages = json['messages']
         self.APIUrl = 'https://api-whatsapp.io/api'
         self.token = 'wvrpt9ragocjek4ym4kjnn03xop6f3aeaqhtoz5ar45='
 
@@ -43,7 +42,7 @@ class WABot():
     def processing(self):
         if self.dict_messages != []:
             for message in self.dict_messages:
-                text = message['body'].split()
+                text = message['data'].split()
                 if not message['fromMe']:
                     id = message['chatId']
                     if text[0].lower() == 'hi':
