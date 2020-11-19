@@ -46,6 +46,7 @@ class WABot():
                 if not message['fromMe']:
                     id = message['chatId']
                     if text[0].lower() == 'hi':
+                        print("\n\nНу хоть проверка есть))\n\n")
                         return self.welcome(id)
                     elif text[0].lower() == 'time':
                         return self.time(id)
