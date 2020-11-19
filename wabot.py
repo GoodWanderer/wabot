@@ -18,7 +18,7 @@ class WABot():
         return answer.json()
 
     def send_message(self, chatId, text):
-        print('\n\nchatId\n\n')
+        print('\n\n'+chatId+'\n\n')
         data = {"chatId": chatId,
                 "body": text}
 
