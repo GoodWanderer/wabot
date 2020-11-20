@@ -41,13 +41,12 @@ class WABot():
         if self.dict_messages != []:
             for message in self.dict_messages:
                 text = message['body']
-                print('\n\n'+message['body']+'\n\n')
                 if not message['fromMe']:
                     id = message['chatId']
                     print(text.lower())
                     print(type(text))
-                    print(text=='b')
-                    if text.lower() == 'b':
+                    print(text=='b b')
+                    if text.lower() == 'b b':
 
                         return self.welcome(id)
 
