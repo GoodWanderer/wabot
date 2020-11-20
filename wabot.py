@@ -159,7 +159,7 @@ class WABot():
                                     (int(a[0]), int(a[1]), int(a[2]), int(a[3]), int(a[4]), id))
                         con.commit()
                         print("\n\n222\n\n")
-                        return self.info(id, str(resultpost[0][1]), str(a))
+                        return self.info(id, str(resultpost[0][1]), str(text))
 
                     else:
                         con.close()
