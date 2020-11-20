@@ -115,6 +115,7 @@ class WABot():
                         return self.questionTextPost(id)
 
                     elif result[1] == 2:
+                        print("\n\nХоть пошло\n\n")
                         if resultpost == [] or resultpost == None:
                             #Создать с с айди и спросить о времяни
                             print("\n\n" + '1' + "\n\n")
@@ -122,11 +123,14 @@ class WABot():
                             con.commit()
                             cur.execute("INSERT INTO posts values (?, ?, 0, 0, 0, 0, 0, 0)", (id, text))
                             con.commit()
+                            return self.questionTextPost(id)
+
                         elif resultpost[0][7] == True:
                             #Вывести результат и сделать id 0
                             print("\n\n"+'2'+"\n\n")
                             cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
                             con.commit()
+                            return self.questionTextPost(id)
                         else:
                             # Изменить
                             print("\n\n" + '3' + "\n\n")
@@ -134,10 +138,11 @@ class WABot():
                             con.commit()
                             cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
                             con.commit()
+                            return self.questionTextPost(id)
 
 
-                        con.close()
-                        return self.questionTextPost(id)
+
+
 
 
 
