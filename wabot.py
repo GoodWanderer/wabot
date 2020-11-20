@@ -39,23 +39,6 @@ class WABot():
         return answer.json()
 
     def send_message(self, chatId, text):
-
-        con = sqlite3.connect('users_db.sqlite')
-        cur = con.cursor()
-
-        cur.execute("SELECT * FROM users WHERE id=?", (chatId,))
-        result = cur.fetchall()
-
-        if result == []:
-            cur.execute("INSERT INTO users values (?, 0)", (chatId,))
-            con.commit()
-            con.close()
-
-        else:
-            cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (chatId,))
-            con.commit()
-            con.close()
-
         data = {"chatId": chatId,
                 "body": text}
 
@@ -85,6 +68,19 @@ class WABot():
 
                     con = sqlite3.connect('users_db.sqlite')
                     cur = con.cursor()
+
+                    cur.execute("SELECT * FROM users WHERE id=?", (id,))
+                    result = cur.fetchone()
+
+                    if result == []:
+                        cur.execute("INSERT INTO users values (?, 0)", (id,))
+                        con.commit()
+                        con.close()
+
+                    else:
+                        cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
+                        con.commit()
+                        con.close()
 
                     cur.execute("SELECT * FROM users WHERE id=?", (id,))
                     result = cur.fetchone()
