@@ -72,7 +72,7 @@ class WABot():
                     cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
                     result = cur.fetchone()
 
-                    print("\n\n"+result+"\n\n")
+                    print("\n\n"+"gg"+result+"\n\n")
 
                     if result == []:
                         cur.execute("INSERT INTO users values (?, 0)", (int(id),))
@@ -111,8 +111,9 @@ class WABot():
                     #     return self.geo(id)
                     # elif text[0].lower() == 'group':
                     #     return self.group(message['author'])
-                    elif result[1] == 1:
-                        return self.welcome(id)
+                    elif result != []:
+                        if result[1] == 1:
+                            return self.welcome(id)
                     else:
                         return self.welcome(id, True)
                 else:
