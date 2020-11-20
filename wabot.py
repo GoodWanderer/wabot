@@ -45,6 +45,7 @@ class WABot():
                 if not message['fromMe']:
                     id = message['chatId']
                     print(text.lower())
+                    print(type(text))
                     if text.lower() == 'xотелузнать':
 
                         return self.welcome(id)
