@@ -75,12 +75,12 @@ class WABot():
                     if result == []:
                         cur.execute("INSERT INTO users values (?, 0)", (id,))
                         con.commit()
-                        con.close()
+
 
                     else:
                         cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
                         con.commit()
-                        con.close()
+
 
                     cur.execute("SELECT * FROM users WHERE id=?", (id,))
                     result = cur.fetchone()
