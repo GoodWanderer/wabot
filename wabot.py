@@ -20,7 +20,8 @@ cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
                 month INT,
                 day INT,
                 hour INT,
-                minute INT
+                minute INT,
+                flag BOOl
             )""")
 
 class WABot():
@@ -58,6 +59,10 @@ class WABot():
         welcome_string = "Введите пароль\n"
         return self.send_message(chatId, welcome_string)
 
+    def questionTextPost(self, chatId):
+        welcome_string = "Введите текст поста:\n"
+        return self.send_message(chatId, welcome_string)
+
     def processing(self):
         if self.dict_messages != []:
             for message in self.dict_messages:
@@ -66,25 +71,33 @@ class WABot():
                 if not message['fromMe']:
                     id = message['chatId']
 
+                    #1
                     con = sqlite3.connect('users_db.sqlite')
                     cur = con.cursor()
 
                     cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
                     result = cur.fetchone()
 
-                    print(str(id))
-                    print("\n\n"+"gg: "+str(result)+"\n\n")
-
                     if result == None or result == []:
                         cur.execute("INSERT INTO users values (?, 0)", (int(id),))
                         con.commit()
-                        print(1)
 
                     cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
                     result = cur.fetchone()
                     print("\n\n"+'res= '+str(result)+"\n\n")
 
+                    #2
+                    cur.execute("SELECT * FROM posts")
+                    resultpost = cur.fetchone()
+
+
+                    cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
+                    result = cur.fetchone()
+                    print("\n\n" + 'res= ' + str(result) + "\n\n")
+
                     if text.lower() == 'хотел бы узнать о вебинаре':
+                        con.close()
+
                         return self.welcome(id)
 
                     elif text.lower() == '/admin':
@@ -94,23 +107,42 @@ class WABot():
                         con.close()
 
                         return self.admin(id)
-                    # elif text[0].lower() == 'chatId':
-                    #     return self.show_chat_id(id)
-                    # elif text[0].lower() == 'me':
-                    #     return self.me(id, message['senderName'])
-                    # elif text[0].lower() == 'file':
-                    #     return self.file(id, text[1])
-                    # elif text[0].lower() == 'ptt':
-                    #     return self.ptt(id)
-                    # elif text[0].lower() == 'geo':
-                    #     return self.geo(id)
-                    # elif text[0].lower() == 'group':
-                    #     return self.group(message['author'])
 
                     elif text == 'Jero2012' and result[1] == 1:
-                        print('\n\nПароль\n\n')
-                        return self.welcome(id)
+                        cur.execute("""UPDATE users SET flag = 2 WHERE id = ?""", (id, ))
+                        con.commit()
+                        con.close()
+                        return self.questionTextPost(id)
+
+                    elif result[1] == 2:
+                        if resultpost == [] or resultpost == None:
+                            #Создать с с айди и спросить о времяни
+                            print("\n\n" + '1' + "\n\n")
+                            cur.execute("""UPDATE users SET flag = 3 WHERE id = ?""", (id,))
+                            con.commit()
+                            cur.execute("INSERT INTO posts values (?, ?, 0, 0, 0, 0, 0, 0)", (id, text))
+                            con.commit()
+                        elif resultpost[0][7] == True:
+                            #Вывести результат и сделать id 0
+                            print("\n\n"+'2'+"\n\n")
+                            cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
+                            con.commit()
+                        else:
+                            # Изменить
+                            print("\n\n" + '3' + "\n\n")
+                            cur.execute("""UPDATE posts SET sendText = ? WHERE id = ?""", (text, id))
+                            con.commit()
+                            cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
+                            con.commit()
+
+
+                        con.close()
+                        return self.questionTextPost(id)
+
+
+
                     else:
+                        con.close()
                         return self.welcome(id, True)
                 else:
                     return 'NoCommand'
