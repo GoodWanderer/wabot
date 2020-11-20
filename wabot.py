@@ -158,7 +158,7 @@ class WABot():
                         cur.execute("""UPDATE posts SET year=?, month=?, day=?, hour=?, minute=? WHERE id = ?""",
                                     (int(a[0]), int(a[1]), int(a[2]), int(a[3]), int(a[4]), id))
                         con.commit()
-                        print("\n\n222\n\n")
+                        print("\n\n"+str(resultpost)+""\n\n")
                         return self.info(id, 'gg', str(text))
 
                     else:
