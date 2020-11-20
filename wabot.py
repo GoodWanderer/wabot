@@ -46,7 +46,7 @@ class WABot():
                     print(text.lower())
                     print(type(text))
                     print(text=='хоч пол')
-                    if text.lower() == 'b b':
+                    if text.lower() == 'хоч пол':
 
                         return self.welcome(id)
 
