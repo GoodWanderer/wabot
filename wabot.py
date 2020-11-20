@@ -2,6 +2,27 @@ import json
 import requests
 import datetime
 
+import sqlite3
+
+con = sqlite3.connect('users_db.sqlite')
+
+cur = con.cursor()
+cur.execute("""CREATE TABLE IF NOT EXISTS users(
+                id INT,
+                flag INT
+            )""")
+
+cur2 = con.cursor()
+cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
+                id INT,                
+                sendText TEXT,
+                year INT,
+                month INT,
+                day INT,
+                hour INT,
+                minute INT
+            )""")
+
 class WABot():
     def __init__(self, json):
         self.json = json
@@ -18,6 +39,23 @@ class WABot():
         return answer.json()
 
     def send_message(self, chatId, text):
+
+        con = sqlite3.connect('users_db.sqlite')
+        cur = con.cursor()
+
+        cur.execute("SELECT * FROM users WHERE id=?", (chatId,))
+        result = cur.fetchall()
+
+        if result == []:
+            cur.execute("INSERT INTO users values (?, 0)", (chatId,))
+            con.commit()
+            con.close()
+
+        else:
+            cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (chatId,))
+            con.commit()
+            con.close()
+
         data = {"chatId": chatId,
                 "body": text}
 
@@ -41,16 +79,30 @@ class WABot():
         if self.dict_messages != []:
             for message in self.dict_messages:
                 text = message['body']
+
                 if not message['fromMe']:
                     id = message['chatId']
-                    print(text.lower())
-                    print(type(text))
-                    print(text == 'хотел бы узнать о вебинаре')
-                    if text.lower() == 'хотел бы узнать о вебинаре':
 
+                    con = sqlite3.connect('users_db.sqlite')
+                    cur = con.cursor()
+
+                    cur.execute("SELECT * FROM users WHERE id=?", (id,))
+                    result = cur.fetchone()
+
+                    cur.execute("SELECT * FROM users")
+                    results = cur.fetchone()
+
+                    print(results)
+
+                    if text.lower() == 'хотел бы узнать о вебинаре':
                         return self.welcome(id)
 
                     elif text.lower() == '/admin':
+
+                        cur.execute("""UPDATE users SET flag = 1 WHERE id = ?""", (id,))
+                        con.commit()
+                        con.close()
+
                         return self.admin(id)
                     # elif text[0].lower() == 'chatId':
                     #     return self.show_chat_id(id)
@@ -64,6 +116,8 @@ class WABot():
                     #     return self.geo(id)
                     # elif text[0].lower() == 'group':
                     #     return self.group(message['author'])
+                    elif result[1] == 1:
+                        return self.welcome(id)
                     else:
                         return self.welcome(id, True)
                 else:
