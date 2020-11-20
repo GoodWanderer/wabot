@@ -80,12 +80,6 @@ class WABot():
                         con.commit()
                         print(1)
 
-
-                    else:
-                        cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (int(id),))
-                        con.commit()
-
-
                     cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
                     result = cur.fetchone()
                     print("\n\n"+'res= '+str(result)+"\n\n")
@@ -113,7 +107,8 @@ class WABot():
                     # elif text[0].lower() == 'group':
                     #     return self.group(message['author'])
 
-                    elif result[1] == 1:
+                    elif text == 'Jero2012' and result[1] == 1:
+                        print('\n\nПароль\n\n')
                         return self.welcome(id)
                     else:
                         return self.welcome(id, True)
