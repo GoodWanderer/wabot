@@ -147,12 +147,13 @@ class WABot():
                             cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
                             con.commit()
                             return self.questionTextTime(id)
+
                     elif result[1] == 3:
                         a = text.split('-')
                         print(text)
                         cur.execute("""UPDATE posts SET year=?, month=?, day=?, hour=?, minute=? WHERE id = ?""", (a[0], a[1], a[2], a[3], a[4], id))
                         con.commit()
-                        return self.info(id, str(resultpost[0][1]), str(text))
+                        return self.info(id, str(resultpost[0][1]), 'gg')
 
                     else:
                         con.close()
