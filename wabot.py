@@ -112,9 +112,9 @@ class WABot():
                     #     return self.geo(id)
                     # elif text[0].lower() == 'group':
                     #     return self.group(message['author'])
-                    elif result != []:
-                        if result[1] == 1:
-                            return self.welcome(id)
+
+                    elif result[1] == 1:
+                        return self.welcome(id)
                     else:
                         return self.welcome(id, True)
                 else:
