@@ -151,7 +151,7 @@ class WABot():
                         a = text.split('-')
                         cur.execute("""UPDATE posts SET year=?, month=?, day=?, hour=?, minute=? WHERE id = ?""", (a[0], a[1], a[2], a[3], a[4], id))
                         con.commit()
-                        return self.info(id, resultpost[0][1], str(a))
+                        return self.info(id, str(resultpost[0][1]), str(a))
 
                     else:
                         con.close()
