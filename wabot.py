@@ -68,7 +68,9 @@ class WABot():
         return self.send_message(chatId, welcome_string)
 
     def info(self, chatId, text, time):
+        print("\n\n333\n\n")
         a = time.split('-')
+        print("\n\n444\n\n")
         welcome_string = text+'\n\nДата: ' + str(a[0])+ ' ' + str(a[1])+ ' ' + str(a[2]) + "\n" + 'Время: ' + str(a[3]) + ' : ' + str(a[4])
         return self.send_message(chatId, welcome_string)
 
