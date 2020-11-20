@@ -69,25 +69,25 @@ class WABot():
                     con = sqlite3.connect('users_db.sqlite')
                     cur = con.cursor()
 
-                    cur.execute("SELECT * FROM users WHERE id=?", (id,))
+                    cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
                     result = cur.fetchone()
 
                     print("\n\n"+result+"\n\n")
 
                     if result == []:
-                        cur.execute("INSERT INTO users values (?, 0)", (id,))
+                        cur.execute("INSERT INTO users values (?, 0)", (int(id),))
                         con.commit()
                         print(1)
 
 
                     else:
-                        cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
+                        cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (int(id),))
                         con.commit()
 
 
-                    cur.execute("SELECT * FROM users WHERE id=?", (id,))
-                    result1 = cur.fetchone()
-                    print("\n\n"+'res= '+result1+"\n\n")
+                    cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
+                    result = cur.fetchone()
+                    print("\n\n"+'res= '+result+"\n\n")
 
                     if text.lower() == 'хотел бы узнать о вебинаре':
                         return self.welcome(id)
