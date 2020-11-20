@@ -21,7 +21,7 @@ cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
                 day INT,
                 hour INT,
                 minute INT,
-                flag BOOl
+                flag INT
             )""")
 
 class WABot():
@@ -60,6 +60,14 @@ class WABot():
         return self.send_message(chatId, welcome_string)
 
     def questionTextPost(self, chatId):
+        welcome_string = "Введите текст поста:\n"
+        return self.send_message(chatId, welcome_string)
+
+    def questionTextTime(self, chatId):
+        welcome_string = "Введите, через пробел, время рассылки по мск(+3):\nгод-месяц-день-часы-минуты\nxxxx-xx-xx-xx-xx"
+        return self.send_message(chatId, welcome_string)
+
+    def info(self, chatId, text, time):
         welcome_string = "Введите текст поста:\n"
         return self.send_message(chatId, welcome_string)
 
@@ -123,14 +131,14 @@ class WABot():
                             con.commit()
                             cur.execute("INSERT INTO posts values (?, ?, 0, 0, 0, 0, 0, 0)", (id, text))
                             con.commit()
-                            return self.questionTextPost(id)
+                            return self.questionTextTime(id)
 
-                        elif resultpost[0][7] == True:
+                        elif resultpost[0][7] == 1:
                             #Вывести результат и сделать id 0
                             print("\n\n"+'2'+"\n\n")
                             cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
                             con.commit()
-                            return self.questionTextPost(id)
+                            return self.questionTextTime(id)
                         else:
                             # Изменить
                             print("\n\n" + '3' + "\n\n")
@@ -138,13 +146,12 @@ class WABot():
                             con.commit()
                             cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
                             con.commit()
-                            return self.questionTextPost(id)
-
-
-
-
-
-
+                            return self.questionTextTime(id)
+                    elif result[1] == 3:
+                        a = text.split('-')
+                        cur.execute("""UPDATE posts SET year=?, month=?, day=?, hour=?, minute=? WHERE id = ?""", (a[0], a[1], a[2], a[3], a[4], id))
+                        con.commit()
+                        return self.info(id, resultpost[0][1], str(a))
 
                     else:
                         con.close()
