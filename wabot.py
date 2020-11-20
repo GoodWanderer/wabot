@@ -68,7 +68,8 @@ class WABot():
         return self.send_message(chatId, welcome_string)
 
     def info(self, chatId, text, time):
-        welcome_string = str(text) + " - " + str(time)
+        a = time.split('-')
+        welcome_string = text+'\n\nДата: ' + str(a[0])+ ' ' + str(a[1])+ ' ' + str(a[2]) + "\n" + 'Время: ' + str(a[3]) + ' : ' + str(a[4])
         return self.send_message(chatId, welcome_string)
 
     def processing(self):
@@ -154,7 +155,7 @@ class WABot():
                         cur.execute("""UPDATE posts SET year=?, month=?, day=?, hour=?, minute=? WHERE id = ?""",
                                     (int(a[0]), int(a[1]), int(a[2]), int(a[3]), int(a[4]), id))
                         con.commit()
-                        return self.info(id, 'gg', text)
+                        return self.info(id, resultpost[0][1], a)
 
                     else:
                         con.close()
