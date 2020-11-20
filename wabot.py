@@ -45,7 +45,7 @@ class WABot():
                     id = message['chatId']
                     print(text.lower())
                     print(type(text))
-                    print(text=='b b')
+                    print(text=='хоч пол')
                     if text.lower() == 'b b':
 
                         return self.welcome(id)
