@@ -72,6 +72,8 @@ class WABot():
                     cur.execute("SELECT * FROM users WHERE id=?", (id,))
                     result = cur.fetchone()
 
+                    print("\n\n"+result+"\n\n")
+
                     if result == []:
                         cur.execute("INSERT INTO users values (?, 0)", (id,))
                         con.commit()
@@ -85,7 +87,7 @@ class WABot():
 
                     cur.execute("SELECT * FROM users WHERE id=?", (id,))
                     result1 = cur.fetchone()
-                    print(result1)
+                    print("\n\n"+'res= '+result1+"\n\n")
 
                     if text.lower() == 'хотел бы узнать о вебинаре':
                         return self.welcome(id)
