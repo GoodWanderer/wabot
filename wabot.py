@@ -151,9 +151,10 @@ class WABot():
                     elif result[1] == 3:
                         a = text.split('-')
                         print(text)
-                        cur.execute("""UPDATE posts SET year=?, month=?, day=?, hour=?, minute=? WHERE id = ?""", (a[0], a[1], a[2], a[3], a[4], id))
+                        cur.execute("""UPDATE posts SET year=?, month=?, day=?, hour=?, minute=? WHERE id = ?""",
+                                    (int(a[0]), int(a[1]), int(a[2]), int(a[3]), int(a[4]), id))
                         con.commit()
-                        return self.info(id, str(resultpost[0][1]), 'gg')
+                        return self.info(id, 'gg', text)
 
                     else:
                         con.close()
