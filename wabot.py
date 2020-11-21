@@ -26,21 +26,21 @@ cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
                 flag INT
             )""")
 
-day = 20
-month = 11
-year = 2020
-
-while True:
-    offset = datetime.timezone(datetime.timedelta(hours=3))
-    now = datetime.datetime.now(offset)
-    sleep(5)
-    if result == 1 and int(now.year) >= year and int(now.month) >= month and int(now.mi) >= day:
-        #Сделать резуль 0
-        #цикл фор(который пройдётся по всем и сделать расслку)
-        print(now)
-        break
-
-print('end')
+# day = 20
+# month = 11
+# year = 2020
+#
+# while True:
+#     offset = datetime.timezone(datetime.timedelta(hours=3))
+#     now = datetime.datetime.now(offset)
+#     sleep(5)
+#     if result == 1 and int(now.year) >= year and int(now.month) >= month and int(now.mi) >= day:
+#         #Сделать резуль 0
+#         #цикл фор(который пройдётся по всем и сделать расслку)
+#         print(now)
+#         break
+#
+# print('end')
 
 class WABot():
     def __init__(self, json):
