@@ -71,7 +71,8 @@ class WABot():
         print("\n\n333\n\n")
         a = time.split('-')
         print("\n\n444\n\n")
-        welcome_string = text+'\n\nДата: ' + str(a[0])+ ' ' + str(a[1])+ ' ' + str(a[2]) + "\n" + 'Время: ' + str(a[3]) + ' : ' + str(a[4])
+        welcome_string = text+'\n\nДата: ' + str(a[0])+ ' ' + str(a[1])+ ' ' + str(a[2]) + "\n" + 'Время: ' + str(a[3]) + ' : ' + \
+                         str(a[4]+'\n\nВсё верно?("да")')
         return self.send_message(chatId, welcome_string)
 
     def processing(self):
@@ -136,7 +137,7 @@ class WABot():
                             con.commit()
                             return self.questionTextTime(id)
 
-                        elif resultpost[0][7] == 1:
+                        elif resultpost[7] == 1:
                             #Вывести результат и сделать id 0
                             print("\n\n"+'2'+"\n\n")
                             cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
@@ -147,19 +148,25 @@ class WABot():
                             print("\n\n" + '3' + "\n\n")
                             cur.execute("""UPDATE posts SET sendText = ? WHERE id = ?""", (text, id))
                             con.commit()
-                            cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
+                            cur.execute("""UPDATE users SET flag = 3 WHERE id = ?""", (id,))
                             con.commit()
                             return self.questionTextTime(id)
 
                     elif result[1] == 3:
                         a = text.split('-')
                         print(text)
-                        print("\n\n111\n\n")
+                        cur.execute("""UPDATE users SET flag = 4 WHERE id = ?""", (id,))
+                        con.commit()
                         cur.execute("""UPDATE posts SET year=?, month=?, day=?, hour=?, minute=? WHERE id = ?""",
                                     (int(a[0]), int(a[1]), int(a[2]), int(a[3]), int(a[4]), id))
                         con.commit()
                         return self.info(id, resultpost[1], str(text))
 
+                    elif result[1] == 4 and text.split() == 'да':
+                        cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
+                        con.commit()
+                        cur.execute("""UPDATE posts SET flag=1 WHERE id = ?""")
+                        con.commit()
                     else:
                         con.close()
                         return self.welcome(id, True)
