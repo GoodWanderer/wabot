@@ -1,6 +1,8 @@
 import json
 import requests
+
 import datetime
+from time import sleep
 
 import sqlite3
 
@@ -23,6 +25,22 @@ cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
                 minute INT,
                 flag INT
             )""")
+
+day = 20
+month = 11
+year = 2020
+
+while True:
+    offset = datetime.timezone(datetime.timedelta(hours=3))
+    now = datetime.datetime.now(offset)
+    sleep(5)
+    if result == 1 and int(now.year) >= year and int(now.month) >= month and int(now.mi) >= day:
+        #Сделать резуль 0
+        #цикл фор(который пройдётся по всем и сделать расслку)
+        print(now)
+        break
+
+print('end')
 
 class WABot():
     def __init__(self, json):
@@ -68,9 +86,7 @@ class WABot():
         return self.send_message(chatId, welcome_string)
 
     def info(self, chatId, text, time):
-        print("\n\n333\n\n")
         a = time.split('-')
-        print("\n\n444\n\n")
         welcome_string = text+'\n\nДата: ' + str(a[0])+ ' ' + str(a[1])+ ' ' + str(a[2]) + "\n" + 'Время: ' + str(a[3]) + ' : ' + \
                          str(a[4]+'\n\nВсё верно?("да")')
         return self.send_message(chatId, welcome_string)
@@ -96,7 +112,6 @@ class WABot():
 
                     cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
                     result = cur.fetchone()
-                    print("\n\n"+'res= '+str(result)+"\n\n")
 
                     #2
                     cur.execute("SELECT * FROM posts")
@@ -105,7 +120,6 @@ class WABot():
 
                     cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
                     result = cur.fetchone()
-                    print("\n\n" + 'res= ' + str(result) + "\n\n")
 
                     if text.lower() == 'хотел бы узнать о вебинаре':
                         con.close()
@@ -127,11 +141,8 @@ class WABot():
                         return self.questionTextPost(id)
 
                     elif result[1] == 2:
-                        print("\n\nХоть пошло\n\n")
-                        print(str(resultpost))
                         if resultpost == [] or resultpost == None:
                             #Создать с с айди и спросить о времяни
-                            print("\n\n" + '1' + "\n\n")
                             cur.execute("""UPDATE users SET flag = 3 WHERE id = ?""", (id,))
                             con.commit()
                             cur.execute("INSERT INTO posts values (?, ?, 0, 0, 0, 0, 0, 0)", (id, text))
@@ -140,7 +151,6 @@ class WABot():
 
                         elif resultpost[7] == 1:
                             #Вывести результат и сделать id 0
-                            print("\n\n"+'2'+"\n\n")
                             cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
                             con.commit()
                             a = str('-'.join((str(resultpost[2]), str(resultpost[3]),
@@ -149,7 +159,6 @@ class WABot():
                             return self.info(id, resultpost[1], a)
                         else:
                             # Изменить
-                            print("\n\n" + '3' + "\n\n")
                             cur.execute("""UPDATE posts SET sendText = ? WHERE id = ?""", (text, id))
                             con.commit()
                             cur.execute("""UPDATE users SET flag = 3 WHERE id = ?""", (id,))
@@ -158,7 +167,6 @@ class WABot():
 
                     elif result[1] == 3:
                         a = text.split('-')
-                        print(text)
                         cur.execute("""UPDATE users SET flag = 4 WHERE id = ?""", (id,))
                         con.commit()
                         cur.execute("""UPDATE posts SET year=?, month=?, day=?, hour=?, minute=? WHERE id = ?""",
@@ -167,7 +175,6 @@ class WABot():
                         return self.info(id, resultpost[1], str(text))
 
                     elif result[1] == 4 and text.lower() == 'да':
-                        print("\n\nggggggg\n\n")
                         cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
                         con.commit()
                         cur.execute("""UPDATE posts SET flag=1 WHERE id = ?""", (id,))

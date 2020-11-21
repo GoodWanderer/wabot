@@ -4,6 +4,10 @@ import json
 
 app = Flask(__name__)
 
+a = True
+while a:
+    print(1)
+
 @app.route('/', methods=['POST'])
 def home():
     if request.method == 'POST':
