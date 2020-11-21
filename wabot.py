@@ -167,7 +167,7 @@ class WABot():
                         print("\n\nggggggg\n\n")
                         cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
                         con.commit()
-                        cur.execute("""UPDATE posts SET flag=1 WHERE id = ?""")
+                        cur.execute("""UPDATE posts SET flag=1 WHERE id = ?""", (id,))
                         con.commit()
                     else:
                         con.close()
