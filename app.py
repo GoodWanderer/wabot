@@ -13,6 +13,7 @@ while a:
 
 @app.route('/', methods=['POST'])
 def home():
+    print(1)
     if request.method == 'POST':
         bot = WABot(request.json)
         return bot.processing()
