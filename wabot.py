@@ -143,10 +143,10 @@ class WABot():
                             print("\n\n"+'2'+"\n\n")
                             cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
                             con.commit()
-                            print(str(' '.join((str(resultpost[2]), str(resultpost[3]),
+                            a = str('-'.join((str(resultpost[2]), str(resultpost[3]),
                                                                               str(resultpost[4]), str(resultpost[5]),
-                                                                              str(resultpost[6])))))
-                            #return self.info(id, resultpost[1], )
+                                                                              str(resultpost[6]))))
+                            return self.info(id, resultpost[1], a)
                         else:
                             # Изменить
                             print("\n\n" + '3' + "\n\n")
