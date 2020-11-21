@@ -128,6 +128,7 @@ class WABot():
 
                     elif result[1] == 2:
                         print("\n\nХоть пошло\n\n")
+                        print(str(resultpost))
                         if resultpost == [] or resultpost == None:
                             #Создать с с айди и спросить о времяни
                             print("\n\n" + '1' + "\n\n")
