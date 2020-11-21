@@ -162,7 +162,7 @@ class WABot():
                         con.commit()
                         return self.info(id, resultpost[1], str(text))
 
-                    elif result[1] == 4 and text.split() == 'да':
+                    elif result[1] == 4 and text.lower() == 'да':
                         cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
                         con.commit()
                         cur.execute("""UPDATE posts SET flag=1 WHERE id = ?""")
