@@ -143,7 +143,7 @@ class WABot():
                             print("\n\n"+'2'+"\n\n")
                             cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
                             con.commit()
-                            return self.questionTextTime(id)
+                            return self.info(id, resultpost[1], str(text))
                         else:
                             # Изменить
                             print("\n\n" + '3' + "\n\n")
