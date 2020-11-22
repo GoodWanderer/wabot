@@ -28,6 +28,17 @@ cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
 
 
 def sendmessage():
+    cur2 = con.cursor()
+    cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
+                    id INT,                
+                    sendText TEXT,
+                    year INT,
+                    month INT,
+                    day INT,
+                    hour INT,
+                    minute INT,
+                    flag INT
+                )""")
     while True:
         print("\n\n\n"+"Старт выполнения"+"\n\n\n")
         cur.execute("SELECT * FROM posts WHERE flag = 1")
