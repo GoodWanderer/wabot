@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from wabot import WABot
+from wabot import WABot, sendmessage
 import json
 
 import time
@@ -19,9 +19,10 @@ def sheduler(n):
   while True:
     if _time + 1 < time.time():
       print(n, ':', time.time())
+      sendmessage()
       _time = time.time()
 
-    time.sleep(10)
+    time.sleep(30)
 
 th1 = threading.Thread(target=app.run)
 th2 = threading.Thread(target=sheduler, args=(2,))
