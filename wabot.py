@@ -38,7 +38,7 @@ def sendmessage():
                 offset = datetime.timezone(datetime.timedelta(hours=3))
                 now = datetime.datetime.now(offset)
                 if result == 1 and int(now.year) >= result[2] and int(now.month) >= result[3] and int(now.day) >= \
-                        result[4] and int(now.day) >= result[5] and int(now.minuten) >= result[6]:
+                        result[4] and int(now.day) >= result[5] and int(now.minute) >= result[6]:
                     print("\n\n\nПринт\n\n\n")
                     cur.execute("""DELETE posts WHERE flag = 1""")
                     con.commit()
