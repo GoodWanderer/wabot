@@ -16,7 +16,6 @@ print('Тест')
 @app.route('/', methods=['POST'])
 def home():
     print("\n\nТельцы\n\n")
-    sendmessage()
     if request.method == 'POST':
         bot = WABot(request.json)
         return bot.processing()
