@@ -17,7 +17,7 @@ def home():
         bot = WABot(request.json)
         return bot.processing()
     else:
-        sendmessage()
+        return sendmessage()
 
 if(__name__) == '__main__':
     app.run(port=80)

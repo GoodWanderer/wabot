@@ -27,10 +27,6 @@ cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
             )""")
 
 def sendmessage():
-
-    day = 20
-    month = 11
-    year = 2020
     print("\n\n\n"+"Какой-то челик, ля ля ля:"+"\n\n\n")
     cur.execute("SELECT * FROM posts WHERE flag = 1")
     result = cur.fetchone()
