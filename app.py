@@ -27,4 +27,7 @@ def home():
         return bot.processing()
 
 if(__name__) == '__main__':
-    app.run()
+    tl.start(block=True)
+
+# if __name__ == "__main__":
+#     tl.start(block=True)
