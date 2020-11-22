@@ -31,10 +31,10 @@ def sendmessage():
     day = 20
     month = 11
     year = 2020
-
+    print("\n\n\n"+"Какой-то челик, ля ля ля:"+"\n\n\n")
     cur.execute("SELECT * FROM posts WHERE flag = 1")
     result = cur.fetchone()
-    print('\n\n\n\n\n'+str(result))
+
     if result[7] == 1:
         offset = datetime.timezone(datetime.timedelta(hours=3))
         now = datetime.datetime.now(offset)
