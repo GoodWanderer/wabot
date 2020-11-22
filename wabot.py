@@ -34,7 +34,7 @@ def sendmessage():
 
     cur.execute("SELECT * FROM posts WHERE flag = 1")
     result = cur.fetchone()
-
+    print('\n\n\n\n\n'+str(result))
     if result[7] == 1:
         offset = datetime.timezone(datetime.timedelta(hours=3))
         now = datetime.datetime.now(offset)
