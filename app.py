@@ -21,7 +21,7 @@ def sheduler(n):
       print(n, ':', time.time())
       _time = time.time()
 
-    time.sleep(0.1)
+    time.sleep(10)
 
 th1 = threading.Thread(target=app.run)
 th2 = threading.Thread(target=sheduler, args=(2,))
