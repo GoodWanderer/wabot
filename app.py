@@ -19,7 +19,7 @@ def sheduler(n):
   while True:
     if _time + 1 < time.time():
       print(n, ':', time.time())
-      #sendmessage()
+      sendmessage()
       _time = time.time()
 
     time.sleep(10)
