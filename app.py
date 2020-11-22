@@ -18,5 +18,6 @@ def home():
         return bot.processing()
     else:
         sendmessage()
+
 if(__name__) == '__main__':
     app.run()
