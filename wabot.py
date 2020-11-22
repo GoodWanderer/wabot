@@ -4,10 +4,6 @@ import requests
 import datetime
 from time import sleep
 
-import time
-from timeloop import Timeloop
-from datetime import timedelta
-
 import sqlite3
 
 con = sqlite3.connect('users_db.sqlite')
@@ -29,33 +25,6 @@ cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
                 minute INT,
                 flag INT
             )""")
-
-tl = Timeloop()
-
-@tl.job(interval=timedelta(seconds=2))
-def sample_job_every_2s():
-    print("2s job current time : {}")
-
-def sendmessage():
-    print("\n\n\nТепловизер\n\n\n")
-    # print("Телец")
-    # while True:
-    #     print("\n\n\n"+"Какой-то челик, ля ля ля:"+"\n\n\n")
-    #     cur.execute("SELECT * FROM posts WHERE flag = 1")
-    #     result = cur.fetchone()
-    #     if result != None or result != []:
-    #         if result[7] == 1:
-    #             offset = datetime.timezone(datetime.timedelta(hours=3))
-    #             now = datetime.datetime.now(offset)
-    #             if result == 1 and int(now.year) >= result[2] and int(now.month) >= result[3] and int(now.day) >= result[4] and int(now.day) >= result[5] and int(now.minuten) >= result[6]:
-    #                 print("\n\n\nПринт\n\n\n")
-    #                 cur.execute("""DELETE posts WHERE flag = 1""")
-    #                 con.commit()
-    #                 con.close()
-    #             else:
-    #                 print("\n\n\nКакая-то фигня\n\n\n")
-    #
-
 
 class WABot():
     def __init__(self, json):
@@ -199,6 +168,3 @@ class WABot():
                         return self.welcome(id, True)
                 else:
                     return 'NoCommand'
-
-if __name__ == "__main__":
-    tl.start(block=True)
