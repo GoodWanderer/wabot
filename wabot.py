@@ -14,21 +14,18 @@ cur.execute("""CREATE TABLE IF NOT EXISTS users(
                 flag INT
             )""")
 
-cur2 = con.cursor()
-cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
-                id INT,                
-                sendText TEXT,
-                year INT,
-                month INT,
-                day INT,
-                hour INT,
-                minute INT,
-                flag INT
-            )""")
-
-
 def sendmessage():
-    sleep(30)
+    cur2 = con.cursor()
+    cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
+                    id INT,                
+                    sendText TEXT,
+                    year INT,
+                    month INT,
+                    day INT,
+                    hour INT,
+                    minute INT,
+                    flag INT
+                )""")
     print("\n\n\n"+"Старт выполнения"+"\n\n\n")
     cur.execute("SELECT * FROM posts WHERE flag = 1")
     result = cur.fetchone()
