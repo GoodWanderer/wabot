@@ -14,11 +14,11 @@ app = Flask(__name__)
 #     sleep(3)
 #     print(1)
 
-tl = Timeloop()
+# tl = Timeloop()
 
-@tl.job(interval=timedelta(seconds=2))
-def sample_job_every_2s():
-    print("2s job current time : {}".format(time.ctime()))
+# @tl.job(interval=timedelta(seconds=2))
+# def sample_job_every_2s():
+#     print("2s job current time : {}".format(time.ctime()))
 
 @app.route('/', methods=['POST'])
 def home():
@@ -27,7 +27,7 @@ def home():
         return bot.processing()
 
 if(__name__) == '__main__':
-    tl.start(block=True)
+    app.run()
 
 # if __name__ == "__main__":
 #     tl.start(block=True)
