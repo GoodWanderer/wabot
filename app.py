@@ -11,16 +11,13 @@ app = Flask(__name__)
 #     sleep(3)
 #     print(1)
 
-print('Тест')
+sendmessage()
 
 @app.route('/', methods=['POST'])
 def home():
-    print("\n\nТельцы\n\n")
     if request.method == 'POST':
         bot = WABot(request.json)
         return bot.processing()
-    else:
-        sendmessage()
 
 if(__name__) == '__main__':
     app.run()
