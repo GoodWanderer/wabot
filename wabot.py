@@ -34,7 +34,7 @@ tl = Timeloop()
 
 @tl.job(interval=timedelta(seconds=2))
 def sample_job_every_2s():
-    print("2s job current time : {}".format(time.ctime()))
+    print("2s job current time : {}")
 
 def sendmessage():
     print("\n\n\nТепловизер\n\n\n")
