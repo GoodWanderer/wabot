@@ -26,21 +26,31 @@ cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
                 flag INT
             )""")
 
-# day = 20
-# month = 11
-# year = 2020
-#
-# while True:
-#     offset = datetime.timezone(datetime.timedelta(hours=3))
-#     now = datetime.datetime.now(offset)
-#     sleep(5)
-#     if result == 1 and int(now.year) >= year and int(now.month) >= month and int(now.mi) >= day:
-#         #Сделать резуль 0
-#         #цикл фор(который пройдётся по всем и сделать расслку)
-#         print(now)
-#         break
-#
-# print('end')
+def sendmessage():
+
+    day = 20
+    month = 11
+    year = 2020
+
+    cur.execute("SELECT * FROM posts WHERE flag = 1")
+    result = cur.fetchone()
+
+    if result[7] == 1:
+        offset = datetime.timezone(datetime.timedelta(hours=3))
+        now = datetime.datetime.now(offset)
+        if result == 1 and int(now.year) >= result[2] and int(now.month) >= result[3] and int(now.day) >= result[4] and int(now.day) >= result[5] and int(now.minuten) >= result[6]:
+            print("\n\nПринт\n\n")
+
+    while True:
+        offset = datetime.timezone(datetime.timedelta(hours=3))
+        now = datetime.datetime.now(offset)
+        if result == 1 and int(now.year) >= year and int(now.month) >= month and int(now.mi) >= day:
+            #Сделать резуль 0
+            #цикл фор(который пройдётся по всем и сделать расслку)
+            print(now)
+            break
+
+    print('end')
 
 class WABot():
     def __init__(self, json):
