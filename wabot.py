@@ -39,18 +39,12 @@ def sendmessage():
         offset = datetime.timezone(datetime.timedelta(hours=3))
         now = datetime.datetime.now(offset)
         if result == 1 and int(now.year) >= result[2] and int(now.month) >= result[3] and int(now.day) >= result[4] and int(now.day) >= result[5] and int(now.minuten) >= result[6]:
-            print("\n\nПринт\n\n")
-
-    while True:
-        offset = datetime.timezone(datetime.timedelta(hours=3))
-        now = datetime.datetime.now(offset)
-        if result == 1 and int(now.year) >= year and int(now.month) >= month and int(now.mi) >= day:
-            #Сделать резуль 0
-            #цикл фор(который пройдётся по всем и сделать расслку)
-            print(now)
-            break
-
-    print('end')
+            print("\n\n\nПринт\n\n\n")
+            cur.execute("""DELETE posts WHERE flag = 1""")
+            con.commit()
+            con.close()
+        else:
+            print("\n\n\nКакая-то фигня\n\n\n")
 
 class WABot():
     def __init__(self, json):
