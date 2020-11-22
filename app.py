@@ -22,7 +22,7 @@ def sheduler(n):
       sendmessage()
       _time = time.time()
 
-    time.sleep(30)
+    time.sleep(10)
 
 th1 = threading.Thread(target=app.run)
 th2 = threading.Thread(target=sheduler, args=(2,))
