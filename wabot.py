@@ -226,9 +226,11 @@ class WABot():
 
                                     cur.execute("SELECT * FROM users")
                                     results = cur.fetchall()
+                                    print(results)
 
                                     for result in results:
-                                        self.send_message(str(result[0]), str(resultpost[1]))
+                                        print(str(result))
+                                        self.send_message(str(result[0][0]), str(resultpost[1]))
 
                     # cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
                     # result = cur.fetchone()
