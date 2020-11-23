@@ -2,8 +2,8 @@ from flask import Flask, request, jsonify
 from wabot import WABot
 import json
 
-import time
-import threading
+# import time
+# import threading
 
 app = Flask(__name__)
 
