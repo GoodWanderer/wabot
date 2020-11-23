@@ -96,9 +96,9 @@ class WABot():
     def processing(self):
         if self.dict_messages != []:
             for message in self.dict_messages:
-                text = message['body']
 
                 if not message['fromMe']:
+                    text = message['body']
                     id = message['chatId']
 
                     #1
