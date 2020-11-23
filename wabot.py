@@ -97,7 +97,7 @@ class WABot():
         if self.dict_messages != []:
             for message in self.dict_messages:
                 print("\n\n"+str(message)+"\n\n")
-                if not message['fromMe']:
+                if 'fromMe' in  message:
                     text = message['body']
                     id = message['chatId']
 
