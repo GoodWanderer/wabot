@@ -199,4 +199,15 @@ class WABot():
 
                 else:
                     print("\n\nТест\n\n")
+                    APIUrl = 'https://api-whatsapp.io/api/'
+                    token = 'vfgs0ezuk4tcqxs709zis3uv677omv09mkxorwkhax='
+                    id = '1d02f38d-3731-47a2-931d-f46a59db273c/'
+                    method = 'sendMessage'
+                    data = {"chatId": '79608581942',
+                            "body": 'Ку'}
+                    headers = {'Content-type': 'application/json'}
+
+                    url = f"{APIUrl}{id}{method}?token={token}"
+
+                    requests.post(url, data=json.dumps(data), headers=headers)
                     return 'NoCommand'
