@@ -208,13 +208,13 @@ class WABot():
                     #2
                     cur.execute("SELECT * FROM posts WHERE flag = 1")
                     resultpost = cur.fetchone()
-
+                    print("\n\n"+str(resultpost)+"\n\n")
                     if resultpost != None or resultpost != []:
                         if resultpost[7] == 1:
                             moscow_time = datetime.now(pytz.timezone('Europe/Moscow'))
                             if moscow_time.year == resultpost[2] and moscow_time.month == resultpost[3] and moscow_time.day == resultpost[4]:
                                 if moscow_time.hour == resultpost[5] and moscow_time.minute == resultpost[6]:
-
+                                    print("\n\nЭммм\n\n")
                                     cur.execute("SELECT * FROM users")
                                     results = cur.fetchall()
 
