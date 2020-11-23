@@ -4,6 +4,9 @@ import requests
 import datetime
 from time import sleep
 
+from datetime import datetime
+import pytz
+
 import sqlite3
 
 con = sqlite3.connect('users_db.sqlite')
@@ -201,23 +204,22 @@ class WABot():
                     print("\n\nТест\n\n")
                     con = sqlite3.connect('users_db.sqlite')
                     cur = con.cursor()
-                    #1
-                    # cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
-                    # result = cur.fetchone()
-                    #
-                    # if result == None or result == []:
-                    #     cur.execute("INSERT INTO users values (?, 0)", (int(id),))
-                    #     con.commit()
-                    #
-                    # cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
-                    # result = cur.fetchone()
 
                     #2
                     cur.execute("SELECT * FROM posts WHERE flag = 1")
                     resultpost = cur.fetchone()
 
-                    if resultpost[7] == 1:
-                        print('Ураааааа, работает))')
+                    if resultpost != None or resultpost != []:
+                        if resultpost[7] == 1:
+                            moscow_time = datetime.now(pytz.timezone('Europe/Moscow'))
+                            if moscow_time.year == resultpost[2] and moscow_time.month == resultpost[3] and moscow_time.day == resultpost[4]:
+                                if moscow_time.hour == resultpost[5] and moscow_time.minute == resultpost[6]:
+
+                                    cur.execute("SELECT * FROM users")
+                                    results = cur.fetchall()
+
+                                    for result in results:
+                                        self.send_message(str(result[0]), str(resultpost[1]))
 
                     # cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
                     # result = cur.fetchone()
