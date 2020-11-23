@@ -2,8 +2,6 @@ import json
 import requests
 
 import datetime
-from time import sleep
-import datetime
 
 
 from datetime import datetime
@@ -215,8 +213,8 @@ class WABot():
                         print(str(resultpost[7]))
                         if resultpost[7] == 1:
 
-                            offset = datetime.timezone(datetime.timedelta(hours=3))
-                            moscow_time = datetime.datetime.now(offset)
+                            moscow_time = datetime.now(pytz.timezone('Europe/Moscow'))
+                            print(str(moscow_time))
 
                             print(moscow_time.day)
                             if moscow_time.year >= resultpost[2] and moscow_time.month >= resultpost[3] and moscow_time.day >= resultpost[4]:
