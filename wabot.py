@@ -212,7 +212,9 @@ class WABot():
                     if resultpost != None or resultpost != []:
                         print(str(resultpost[7]))
                         if resultpost[7] == 1:
-                            moscow_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=3)))
+
+                            offset = datetime.timezone(datetime.timedelta(hours=3))
+                            moscow_time = datetime.datetime.now(offset)
                             print(str(moscow_time))
                             if moscow_time.year >= resultpost[2] and moscow_time.month >= resultpost[3] and moscow_time.day >= resultpost[4]:
                                 if moscow_time.hour >= resultpost[5] and moscow_time.minute >= resultpost[6]:
