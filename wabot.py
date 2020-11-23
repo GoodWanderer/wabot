@@ -2,7 +2,7 @@ import json
 import requests
 
 import datetime
-
+from datetime import datetime as DT, timedelta
 
 from datetime import datetime
 import pytz
@@ -213,11 +213,18 @@ class WABot():
                         print(str(resultpost[7]))
                         if resultpost[7] == 1:
 
+                            dt_s = str(resultpost[4])+'.'+str(resultpost[3])+'.'+str(resultpost[2])+' '+str(resultpost[5])+':'+str(resultpost[2]+':'+'00')
+                            dt_fmt = '%d.%m.%Y %H:%M:%S'
+
+                            res = datetime.datetime.strptime(dt_s, dt_fmt)
+
+
                             moscow_time = datetime.now(pytz.timezone('Europe/Moscow'))
                             print(str(moscow_time))
 
                             print(moscow_time.day)
-                            if moscow_time.year >= resultpost[2] and moscow_time.month >= resultpost[3] and moscow_time.day >= resultpost[4]:
+
+                            if moscow_time >= res:
                                 if moscow_time.hour >= resultpost[5] and moscow_time.minute >= resultpost[6]:
                                     print("\n\nЭммм\n\n")
 
