@@ -198,4 +198,5 @@ class WABot():
                                     print("\n\n\nКакая-то фигня\n\n\n")
 
                 else:
+                    print("\n\nТест\n\n")
                     return 'NoCommand'
