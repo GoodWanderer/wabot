@@ -209,22 +209,22 @@ class WABot():
                     cur.execute("SELECT * FROM posts WHERE flag = 1")
                     resultpost = cur.fetchone()
                     print("\n\n"+str(resultpost)+"\n\n")
-                    if resultpost != None or resultpost != []:
-                        print(str(resultpost[7]))
-                        if resultpost[7] == 1:
-
-                            moscow_time = datetime.now(pytz.timezone('Europe/Moscow'))
-                            print(str(moscow_time))
-
-                            print(moscow_time.day)
-                            if moscow_time.year >= resultpost[2] and moscow_time.month >= resultpost[3] and moscow_time.day >= resultpost[4]:
-                                if moscow_time.hour >= resultpost[5] and moscow_time.minute >= resultpost[6]:
-                                    print("\n\nЭммм\n\n")
-                                    cur.execute("SELECT * FROM users")
-                                    results = cur.fetchall()
-
-                                    for result in results:
-                                        self.send_message(str(result[0]), str(resultpost[1]))
+                    # if resultpost != None or resultpost != []:
+                    #     print(str(resultpost[7]))
+                    #     if resultpost[7] == 1:
+                    #
+                    #         moscow_time = datetime.now(pytz.timezone('Europe/Moscow'))
+                    #         print(str(moscow_time))
+                    #
+                    #         print(moscow_time.day)
+                    #         if moscow_time.year >= resultpost[2] and moscow_time.month >= resultpost[3] and moscow_time.day >= resultpost[4]:
+                    #             if moscow_time.hour >= resultpost[5] and moscow_time.minute >= resultpost[6]:
+                    #                 print("\n\nЭммм\n\n")
+                    #                 cur.execute("SELECT * FROM users")
+                    #                 results = cur.fetchall()
+                    #
+                    #                 for result in results:
+                    #                     self.send_message(str(result[0]), str(resultpost[1]))
 
                     # cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
                     # result = cur.fetchone()
