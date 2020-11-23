@@ -123,23 +123,20 @@ class WABot():
                     cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
                     result = cur.fetchone()
 
-                    if text.lower() == 'хотел бы узнать о вебинаре':
-                        con.close()
 
+                    if text.lower() == 'хотел бы узнать о вебинаре':
                         return self.welcome(id)
 
                     elif text.lower() == '/admin':
 
                         cur.execute("""UPDATE users SET flag = 1 WHERE id = ?""", (id,))
                         con.commit()
-                        con.close()
 
                         return self.admin(id)
 
                     elif text == 'Jero2012' and result[1] == 1:
                         cur.execute("""UPDATE users SET flag = 2 WHERE id = ?""", (id, ))
                         con.commit()
-                        con.close()
                         return self.questionTextPost(id)
 
                     elif result[1] == 2:
@@ -182,7 +179,23 @@ class WABot():
                         cur.execute("""UPDATE posts SET flag=1 WHERE id = ?""", (id,))
                         con.commit()
                     else:
-                        con.close()
                         return self.welcome(id, True)
+
+                    if text == 'ку':
+                        print("\n\n\n"+"Какой-то челик, ля ля ля:"+"\n\n\n")
+                        cur.execute("SELECT * FROM posts WHERE flag = 1")
+                        result = cur.fetchone()
+                        if result != None or result != []:
+                            if result[7] == 1:
+                                offset = datetime.timezone(datetime.timedelta(hours=3))
+                                now = datetime.datetime.now(offset)
+                                if result == 1 and int(now.year) >= result[2] and int(now.month) >= result[3] and int(now.day) >= result[4] and int(now.day) >= result[5] and int(now.minuten) >= result[6]:
+                                    print("\n\n\nПринт\n\n\n")
+                                    cur.execute("""DELETE posts WHERE flag = 1""")
+                                    con.commit()
+                                    con.close()
+                                else:
+                                    print("\n\n\nКакая-то фигня\n\n\n")
+
                 else:
                     return 'NoCommand'
