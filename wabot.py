@@ -213,8 +213,8 @@ class WABot():
                         print(str(resultpost[7]))
                         if resultpost[7] == 1:
 
-                            dt_s = str(resultpost[4])+'.'+str(resultpost[3])+'.'+str(resultpost[2])+' '+str(resultpost[5])+':'+str(resultpost[6])+':00'
-                            dt_fmt = '%d.%m.%Y %H:%M:%S'
+                            dt_s = str(resultpost[4])+'.'+str(resultpost[3])+'.'+str(resultpost[2])+' '+str(resultpost[5])+':'+str(resultpost[6])
+                            dt_fmt = '%d.%m.%Y %H:%M'
 
                             res = datetime.strptime(dt_s, dt_fmt)
 
@@ -222,22 +222,23 @@ class WABot():
                             moscow_time = datetime.now(pytz.timezone('Europe/Moscow'))
                             print(str(moscow_time))
 
-                            print(moscow_time.day)
+                            dt_s = str(moscow_time.day)+'.'+str(moscow_time.month)+'.'+str(moscow_time.year)+' '+str(moscow_time.hour)+':'+str(moscow_time.minute)
+                            moscow_time = datetime.strptime(dt_s, dt_fmt)
+                            print(str(moscow_time.day))
 
                             if moscow_time >= res:
-                                if moscow_time.hour >= resultpost[5] and moscow_time.minute >= resultpost[6]:
-                                    print("\n\nЭммм\n\n")
+                                print("\n\nЭммм\n\n")
 
-                                    cur.execute("""DELETE FROM posts WHERE flag = 1""")
-                                    con.commit()
+                                cur.execute("""DELETE FROM posts WHERE flag = 1""")
+                                con.commit()
 
-                                    cur.execute("SELECT * FROM users")
-                                    results = cur.fetchall()
-                                    print(results)
+                                cur.execute("SELECT * FROM users")
+                                results = cur.fetchall()
+                                print(results)
 
-                                    for result in results:
-                                        print(str(result))
-                                        self.send_message(str(result[0][0]), str(resultpost[1]))
+                                for result in results:
+                                    print(str(result))
+                                    self.send_message(str(result[0][0]), str(resultpost[1]))
 
                     # cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
                     # result = cur.fetchone()
