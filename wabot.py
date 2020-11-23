@@ -213,7 +213,7 @@ class WABot():
                         print(str(resultpost[7]))
                         if resultpost[7] == 1:
 
-                            dt_s = str(resultpost[4])+'.'+str(resultpost[3])+'.'+str(resultpost[2])+' '+str(resultpost[5])+':'+str(resultpost[2]+':'+'00')
+                            dt_s = str(resultpost[4])+'.'+str(resultpost[3])+'.'+str(resultpost[2])+' '+str(resultpost[5])+':'+str(resultpost[6]+':'+'00')
                             dt_fmt = '%d.%m.%Y %H:%M:%S'
 
                             res = datetime.datetime.strptime(dt_s, dt_fmt)
