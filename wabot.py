@@ -14,33 +14,34 @@ cur.execute("""CREATE TABLE IF NOT EXISTS users(
                 flag INT
             )""")
 
-def sendmessage():
-    cur2 = con.cursor()
-    cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
-                    id INT,                
-                    sendText TEXT,
-                    year INT,
-                    month INT,
-                    day INT,
-                    hour INT,
-                    minute INT,
-                    flag INT
-                )""")
-    print("\n\n\n"+"Старт выполнения"+"\n\n\n")
-    cur.execute("SELECT * FROM posts WHERE flag = 1")
-    result = cur.fetchone()
-    print("Результат: "+str(result))
-    if result != None or result != []:
-        if result[7] == 1:
-            offset = datetime.timezone(datetime.timedelta(hours=3))
-            now = datetime.datetime.now(offset)
-            if result == 1 and int(now.year) >= result[2] and int(now.month) >= result[3] and int(now.day) >= result[4] and int(now.day) >= result[5] and int(now.minuten) >= result[6]:
-                print("\n\n\nПринт\n\n\n")
-                cur.execute("""DELETE posts WHERE flag = 1""")
-                con.commit()
-                con.close()
-            else:
-                print("\n\n\nВсё норм, сработает позже\n\n\n")
+cur2 = con.cursor()
+cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
+                id INT,                
+                sendText TEXT,
+                year INT,
+                month INT,
+                day INT,
+                hour INT,
+                minute INT,
+                flag INT
+            )""")
+
+# def sendmessage():
+#     print("\n\n\n"+"Старт выполнения"+"\n\n\n")
+#     cur.execute("SELECT * FROM posts WHERE flag = 1")
+#     result = cur.fetchone()
+#     print("Результат: "+str(result))
+#     if result != None or result != []:
+#         if result[7] == 1:
+#             offset = datetime.timezone(datetime.timedelta(hours=3))
+#             now = datetime.datetime.now(offset)
+#             if result == 1 and int(now.year) >= result[2] and int(now.month) >= result[3] and int(now.day) >= result[4] and int(now.day) >= result[5] and int(now.minuten) >= result[6]:
+#                 print("\n\n\nПринт\n\n\n")
+#                 cur.execute("""DELETE posts WHERE flag = 1""")
+#                 con.commit()
+#                 con.close()
+#             else:
+#                 print("\n\n\nВсё норм, сработает позже\n\n\n")
 
 
 class WABot():
@@ -49,7 +50,7 @@ class WABot():
         self.dict_messages = json['data']
         self.APIUrl = 'https://api-whatsapp.io/api/'
         self.token = 'vfgs0ezuk4tcqxs709zis3uv677omv09mkxorwkhax='
-        self.id = 'ceae53d7-8c29-4a80-a6f9-8a548f303a83/'
+        self.id = '1d02f38d-3731-47a2-931d-f46a59db273c'
 
     def send_requests(self, method, data):
         url = f"{self.APIUrl}{self.id}{method}?token={self.token}"
