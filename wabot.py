@@ -199,6 +199,28 @@ class WABot():
 
                 else:
                     print("\n\nТест\n\n")
+                    con = sqlite3.connect('users_db.sqlite')
+                    cur = con.cursor()
+                    #1
+                    # cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
+                    # result = cur.fetchone()
+                    #
+                    # if result == None or result == []:
+                    #     cur.execute("INSERT INTO users values (?, 0)", (int(id),))
+                    #     con.commit()
+                    #
+                    # cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
+                    # result = cur.fetchone()
+
+                    #2
+                    cur.execute("SELECT * FROM posts WHERE flag = 1")
+                    resultpost = cur.fetchone()
+
+                    if resultpost[7] == 1:
+                        print('Ураааааа, работает))')
+
+                    # cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
+                    # result = cur.fetchone()
                     # APIUrl = 'https://api-whatsapp.io/api/'
                     # token = 'vfgs0ezuk4tcqxs709zis3uv677omv09mkxorwkhax='
                     # id = '1d02f38d-3731-47a2-931d-f46a59db273c/'
