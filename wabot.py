@@ -210,10 +210,12 @@ class WABot():
                     resultpost = cur.fetchone()
                     print("\n\n"+str(resultpost)+"\n\n")
                     if resultpost != None or resultpost != []:
+                        print(str(resultpost[7]))
                         if resultpost[7] == 1:
-                            moscow_time = datetime.now(pytz.timezone('Europe/Moscow'))
-                            if moscow_time.year == resultpost[2] and moscow_time.month == resultpost[3] and moscow_time.day == resultpost[4]:
-                                if moscow_time.hour == resultpost[5] and moscow_time.minute == resultpost[6]:
+                            moscow_time = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=3)))
+                            print(str(moscow_time))
+                            if moscow_time.year >= resultpost[2] and moscow_time.month >= resultpost[3] and moscow_time.day >= resultpost[4]:
+                                if moscow_time.hour >= resultpost[5] and moscow_time.minute >= resultpost[6]:
                                     print("\n\nЭммм\n\n")
                                     cur.execute("SELECT * FROM users")
                                     results = cur.fetchall()
