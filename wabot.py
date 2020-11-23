@@ -221,7 +221,7 @@ class WABot():
                                 if moscow_time.hour >= resultpost[5] and moscow_time.minute >= resultpost[6]:
                                     print("\n\nЭммм\n\n")
 
-                                    cur.execute("""UPDATE posts SET flag=0 WHERE id = ?""", (id,))
+                                    cur.execute("""DELETE FROM posts WHERE flag = 1""")
                                     con.commit()
 
                                     cur.execute("SELECT * FROM users")
