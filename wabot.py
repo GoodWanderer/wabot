@@ -52,11 +52,11 @@ class WABot():
         self.json = json
         self.dict_messages = json['data']
         self.APIUrl = 'https://api-whatsapp.io/api/'
-        self.token = 'vfgs0ezuk4tcqxs709zis3uv677omv09mkxorwkhax='
-        self.id = '1d02f38d-3731-47a2-931d-f46a59db273c/'
+        self.token = 'mjhcu14sbf1ui0w1706bsxqpq191mnridkcwk7iti='
+        self.id = 'eb6be3e6-2696-4620-a34f-fff0b35940dc'
 
     def send_requests(self, method, data):
-        url = f"{self.APIUrl}{self.id}{method}?token={self.token}"
+        url = f"{self.APIUrl}{self.id}/{method}?token={self.token}"
         headers = {'Content-type': 'application/json'}
         answer = requests.post(url, data=json.dumps(data), headers=headers)
         print("send_requests")
@@ -137,10 +137,18 @@ class WABot():
 
                         return self.admin(id)
 
-                    elif text == 'Jero2012' and result[1] == 1:
-                        cur.execute("""UPDATE users SET flag = 2 WHERE id = ?""", (id, ))
-                        con.commit()
-                        return self.questionTextPost(id)
+                    elif text == 'pass' and result[1] == 1:
+                        if resultpost[7] == 1:
+                            cur.execute("""UPDATE users SET flag = 10 WHERE id = ?""", (id,))
+                            con.commit()
+                            a = str('-'.join((str(resultpost[2]), str(resultpost[3]),
+                                                                              str(resultpost[4]), str(resultpost[5]),
+                                                                              str(resultpost[6]))))
+                            return self.send_message(str(result[0]), str(resultpost[1])+"\n\n"+a+"\n\n"+'Удалить рассылку? "Удалить"')
+                        else:
+                            cur.execute("""UPDATE users SET flag = 2 WHERE id = ?""", (id, ))
+                            con.commit()
+                            return self.questionTextPost(id)
 
                     elif result[1] == 2:
                         if resultpost == [] or resultpost == None:
@@ -151,14 +159,6 @@ class WABot():
                             con.commit()
                             return self.questionTextTime(id)
 
-                        elif resultpost[7] == 1:
-                            #Вывести результат и сделать id 0
-                            cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
-                            con.commit()
-                            a = str('-'.join((str(resultpost[2]), str(resultpost[3]),
-                                                                              str(resultpost[4]), str(resultpost[5]),
-                                                                              str(resultpost[6]))))
-                            return self.info(id, resultpost[1], a)
                         else:
                             # Изменить
                             cur.execute("""UPDATE posts SET sendText = ? WHERE id = ?""", (text, id))
@@ -181,6 +181,12 @@ class WABot():
                         con.commit()
                         cur.execute("""UPDATE posts SET flag=1 WHERE id = ?""", (id,))
                         con.commit()
+                    elif result[1] == 10:
+                        cur.execute("""UPDATE posts SET flag = 0 WHERE id = ?""", (id,))
+                        con.commit()
+                        cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
+                        con.commit()
+                        return self.send_message(result[0], 'Рассылка отменена')
                     else:
                         return self.welcome(id, True)
 
@@ -241,17 +247,4 @@ class WABot():
                                     print(str(result[0])+" "+str(resultpost[1]))
                                     self.send_message(str(result[0]), str(resultpost[1]))
 
-                    # cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
-                    # result = cur.fetchone()
-                    # APIUrl = 'https://api-whatsapp.io/api/'
-                    # token = 'vfgs0ezuk4tcqxs709zis3uv677omv09mkxorwkhax='
-                    # id = '1d02f38d-3731-47a2-931d-f46a59db273c/'
-                    # method = 'sendMessage'
-                    # data = {"chatId": '79608581942',
-                    #         "body": 'Ку'}
-                    # headers = {'Content-type': 'application/json'}
-                    #
-                    # url = f"{APIUrl}{id}{method}?token={token}"
-                    #
-                    # requests.post(url, data=json.dumps(data), headers=headers)
                     return 'NoCommand'
