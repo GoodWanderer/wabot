@@ -138,17 +138,19 @@ class WABot():
                         return self.admin(id)
 
                     elif text == 'pass' and result[1] == 1:
-                        if resultpost[7] == 1:
-                            cur.execute("""UPDATE users SET flag = 10 WHERE id = ?""", (id,))
-                            con.commit()
-                            a = str('-'.join((str(resultpost[2]), str(resultpost[3]),
-                                                                              str(resultpost[4]), str(resultpost[5]),
-                                                                              str(resultpost[6]))))
-                            return self.send_message(str(result[0]), str(resultpost[1])+"\n\n"+a+"\n\n"+'Удалить рассылку? "Удалить"')
-                        else:
+                        if resultpost == [] or resultpost == None or  resultpost[7] == 0:
                             cur.execute("""UPDATE users SET flag = 2 WHERE id = ?""", (id, ))
                             con.commit()
                             return self.questionTextPost(id)
+
+                        else:
+                            cur.execute("""UPDATE users SET flag = 10 WHERE id = ?""", (id,))
+                            con.commit()
+                            a = str('-'.join((str(resultpost[2]), str(resultpost[3]),
+                                              str(resultpost[4]), str(resultpost[5]),
+                                              str(resultpost[6]))))
+                            return self.send_message(str(result[0]), str(
+                                resultpost[1]) + "\n\n" + a + "\n\n" + 'Удалить рассылку? "Удалить"')
 
                     elif result[1] == 2:
                         if resultpost == [] or resultpost == None:
