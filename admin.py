@@ -15,7 +15,7 @@ cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
                 minute INT,
                 hour INT,
                 day INT,
-                month INT
+                month INT,
                 year INT,
                 flag INT
             )""")
