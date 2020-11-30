@@ -34,46 +34,43 @@ class WABot():
         self.token = secret.token
         self.id = secret.id
 
-    def send_requests(self, method, data):
-        url = f"{self.APIUrl}{self.id}/{method}?token={self.token}"
+    def send_requests(self, chatId, text):
+        url = f"{self.APIUrl}{self.id}/sendMessage?token={self.token}"
+        data = {"chatId": chatId, "body": text}
         headers = {'Content-type': 'application/json'}
         answer = requests.post(url, data=json.dumps(data), headers=headers)
-        print("send_requests")
         return answer.json()
 
-    def send_message(self, chatId, text):
-        data = {"chatId": chatId,
-                "body": text}
-
-        answer = self.send_requests('sendMessage', data)
-        return answer
-
     def welcome(self, chatId, noWelcome=False):
-        welcome_string = ''
         if (noWelcome == False):
             welcome_string = "Информация о вебинаре\n"
         else:
-            welcome_string = """Для того что бы получить информацию о вебенаре, отправьте:\n "О вебинаре" """
+            welcome_string = """Для того что бы получить информацию о вебенаре, отправьте:\n"О вебинаре" """
+        return self.send_requests(chatId, welcome_string)
 
-        return self.send_message(chatId, welcome_string)
+    def admin_text_pas(self, chatId):
+        return self.send_requests(chatId, "Введите пароль:")
 
-    def admin(self, chatId):
-        welcome_string = "Введите пароль\n"
-        return self.send_message(chatId, welcome_string)
+    def post_text(self, chatId):
+        return self.send_requests(chatId, "Введите текст поста:")
 
-    def questionTextPost(self, chatId):
-        welcome_string = "Введите текст поста:\n"
-        return self.send_message(chatId, welcome_string)
+    def post_time(self, chatId):
+        return self.send_requests(chatId, "Введите, через пробел, время рассылки по мск(+3):\n" +
+                                          "год-месяц-день-часы-минуты\n"+
+                                          "xxxx-xx-xx-xx-xx")
 
-    def questionTextTime(self, chatId):
-        welcome_string = "Введите, через пробел, время рассылки по мск(+3):\nгод-месяц-день-часы-минуты\nxxxx-xx-xx-xx-xx"
-        return self.send_message(chatId, welcome_string)
-
-    def info(self, chatId, text, time):
+    def post_check(self, chatId, text, time):
         a = time.split('-')
-        welcome_string = text+'\n\nДата: ' + str(a[0])+ ' ' + str(a[1])+ ' ' + str(a[2]) + "\n" + 'Время: ' + str(a[3]) + ' : ' + \
-                         str(a[4]+'\n\nВсё верно?("да")')
-        return self.send_message(chatId, welcome_string)
+        return self.send_requests(chatId, text+
+                                         '\n\nДата: '+str(a[0])+' '+str(a[1])+' '+str(a[2])+
+                                         '\nВремя: '+str(a[3])+' : '+str(a[4])+
+                                         '\n\nВсё верно? "да"')
+
+    def post_delete(self, chatId, a):
+        return self.send_requests(chatId, str(a[1]) +
+                                         '\n\nДата: ' + str(a[2]) + ' ' + str(a[3]) + ' ' + str(a[4]) +
+                                         '\nВремя: ' + str(a[5]) + ' : ' + str(a[6]) +
+                                         '\n\nОтменить рассылку? "отменить"')
 
     def processing(self):
         if self.dict_messages != []:
@@ -96,52 +93,49 @@ class WABot():
                         return self.welcome(id)
 
                     elif text.lower() == '/admin':
-
                         admin.update_user_flag(id, 1)
-
-                        return self.admin(id)
+                        return self.admin_text_pas(id)
 
                     elif result[1] == 1 and text == secret.password:
                         if result_post == [] or result_post == None or  result_post[7] == 0:
                             admin.update_user_flag(id, 2)
-                            return self.questionTextPost(id)
+                            return self.post_text(id)
 
                         else:
                             admin.update_user_flag(id, 10)
-                            a = str('-'.join((str(result_post[2]), str(result_post[3]),
-                                              str(result_post[4]), str(result_post[5]),
-                                              str(result_post[6]))))
-                            return self.send_message(str(result[0]), str(
-                                result_post[1]) + "\n\n" + a + "\n\n" + 'Удалить рассылку? "Удалить"')
+                            # a = str('-'.join((str(result_post[2]), str(result_post[3]),
+                            #                   str(result_post[4]), str(result_post[5]),
+                            #                   str(result_post[6]))))
+                            return self.post_delete(id, result_post)
 
                     elif result[1] == 2:
                         if result_post == [] or result_post == None:
                             #Создать с с айди и спросить о времяни
                             admin.update_user_flag(id, 3)
                             admin.create_post(id, text)
-                            return self.questionTextTime(id)
+                            return self.post_time(id)
 
                         else:
                             # Изменить
                             admin.update_user_flag(id, 3)
                             admin.update_post(text, id)
-                            return self.questionTextTime(id)
+                            return self.post_time(id)
 
                     elif result[1] == 3:
                         admin.update_user_flag(id, 4)
                         admin.update_post_time(text.split('-'), id)
 
-                        return self.info(id, result_post[1], str(text))
+                        return self. post_check(id, result_post[1], str(text))
 
                     elif result[1] == 4 and text.lower() == 'да':
                         admin.update_user_flag(id, 0)
                         admin.update_post_flag(id, 1)
-                        #Добавить сообщение об успешной отпраки
+                        return self.send_requests(id, 'Рассылка успешно назначенна')
 
-                    elif result[1] == 10 and text.lower() == 'удалить':
+                    elif result[1] == 10 and text.lower() == 'отменить':
                         admin.update_user_flag(id, 0)
                         admin.update_post_flag(id, 0)
-                        return self.send_message(result[0], 'Рассылка отменена')
+                        return self.send_requests(id, 'Рассылка отменена')
                     else:
                         return self.welcome(id, True)
 
@@ -186,6 +180,6 @@ class WABot():
                                 results = admin.select_users_all()
 
                                 for result in results:
-                                    self.send_message(str(result[0]), str(result_post[1]))
+                                    self.send_requests(str(result[0]), str(result_post[1]))
 
                     return 'NoCommand'
