@@ -121,20 +121,17 @@ class WABot():
 
                     elif text.lower() == '/admin':
 
-                        cur.execute("""UPDATE users SET flag = 1 WHERE id = ?""", (id,))
-                        con.commit()
+                        admin.update_user_flag(id, 2)
 
                         return self.admin(id)
 
-                    elif text == 'pass' and result[1] == 1:
+                    elif result[1] == 1 and text == 'pass':
                         if result_post == [] or result_post == None or  result_post[7] == 0:
-                            cur.execute("""UPDATE users SET flag = 2 WHERE id = ?""", (id, ))
-                            con.commit()
+                            admin.update_user_flag(id, 2)
                             return self.questionTextPost(id)
 
                         else:
-                            cur.execute("""UPDATE users SET flag = 10 WHERE id = ?""", (id,))
-                            con.commit()
+                            admin.update_user_flag(id, 10)
                             a = str('-'.join((str(result_post[2]), str(result_post[3]),
                                               str(result_post[4]), str(result_post[5]),
                                               str(result_post[6]))))
@@ -144,38 +141,34 @@ class WABot():
                     elif result[1] == 2:
                         if result_post == [] or result_post == None:
                             #Создать с с айди и спросить о времяни
-                            cur.execute("""UPDATE users SET flag = 3 WHERE id = ?""", (id,))
-                            con.commit()
+                            admin.update_user_flag(id, 3)
                             cur.execute("INSERT INTO posts values (?, ?, 0, 0, 0, 0, 0, 0)", (id, text))
                             con.commit()
                             return self.questionTextTime(id)
 
                         else:
                             # Изменить
+                            admin.update_user_flag(id, 3)
                             cur.execute("""UPDATE posts SET sendText = ? WHERE id = ?""", (text, id))
-                            con.commit()
-                            cur.execute("""UPDATE users SET flag = 3 WHERE id = ?""", (id,))
                             con.commit()
                             return self.questionTextTime(id)
 
                     elif result[1] == 3:
                         a = text.split('-')
-                        cur.execute("""UPDATE users SET flag = 4 WHERE id = ?""", (id,))
-                        con.commit()
+                        admin.update_user_flag(id, 4)
                         cur.execute("""UPDATE posts SET year=?, month=?, day=?, hour=?, minute=? WHERE id = ?""",
                                     (int(a[0]), int(a[1]), int(a[2]), int(a[3]), int(a[4]), id))
                         con.commit()
                         return self.info(id, result_post[1], str(text))
 
                     elif result[1] == 4 and text.lower() == 'да':
-                        cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
-                        con.commit()
+                        admin.update_user_flag(id, 0)
                         cur.execute("""UPDATE posts SET flag=1 WHERE id = ?""", (id,))
                         con.commit()
-                    elif result[1] == 10:
+
+                    elif result[1] == 10 and text.lower() == 'да':
+                        admin.update_user_flag(id, 0)
                         cur.execute("""UPDATE posts SET flag = 0 WHERE id = ?""", (id,))
-                        con.commit()
-                        cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
                         con.commit()
                         return self.send_message(result[0], 'Рассылка отменена')
                     else:
@@ -197,45 +190,45 @@ class WABot():
                                 else:
                                     print("\n\n\nКакая-то фигня\n\n\n")
 
-                else:
-                    print("\n\nТест\n\n")
-                    con = sqlite3.connect('users_db.sqlite')
-                    cur = con.cursor()
-
-                    #2
-                    cur.execute("SELECT * FROM posts WHERE flag = 1")
-                    result_post = cur.fetchone()
-                    print("\n\n"+str(result_post)+"\n\n")
-                    if result_post != None or result_post != []:
-                        print(str(result_post[7]))
-                        if result_post[7] == 1:
-
-                            dt_s = str(result_post[4])+'.'+str(result_post[3])+'.'+str(result_post[2])+' '+str(result_post[5])+':'+str(result_post[6])
-                            dt_fmt = '%d.%m.%Y %H:%M'
-
-                            res = datetime.strptime(dt_s, dt_fmt)
-
-
-                            moscow_time = datetime.now(pytz.timezone('Europe/Moscow'))
-                            print(str(moscow_time))
-
-                            dt_s = str(moscow_time.day)+'.'+str(moscow_time.month)+'.'+str(moscow_time.year)+' '+str(moscow_time.hour)+':'+str(moscow_time.minute)
-                            moscow_time = datetime.strptime(dt_s, dt_fmt)
-                            print(str(moscow_time.day))
-
-                            if moscow_time >= res:
-                                print("\n\nЭммм\n\n")
-
-                                cur.execute("""DELETE FROM posts WHERE flag = 1""")
-                                con.commit()
-
-                                cur.execute("SELECT * FROM users")
-                                results = cur.fetchall()
-                                print(results)
-
-                                for result in results:
-                                    print(str(result))
-                                    print(str(result[0])+" "+str(result_post[1]))
-                                    self.send_message(str(result[0]), str(result_post[1]))
+                # else:
+                #     print("\n\nТест\n\n")
+                #     con = sqlite3.connect('users_db.sqlite')
+                #     cur = con.cursor()
+                #
+                #     #2
+                #     cur.execute("SELECT * FROM posts WHERE flag = 1")
+                #     result_post = cur.fetchone()
+                #     print("\n\n"+str(result_post)+"\n\n")
+                #     if result_post != None or result_post != []:
+                #         print(str(result_post[7]))
+                #         if result_post[7] == 1:
+                #
+                #             dt_s = str(result_post[4])+'.'+str(result_post[3])+'.'+str(result_post[2])+' '+str(result_post[5])+':'+str(result_post[6])
+                #             dt_fmt = '%d.%m.%Y %H:%M'
+                #
+                #             res = datetime.strptime(dt_s, dt_fmt)
+                #
+                #
+                #             moscow_time = datetime.now(pytz.timezone('Europe/Moscow'))
+                #             print(str(moscow_time))
+                #
+                #             dt_s = str(moscow_time.day)+'.'+str(moscow_time.month)+'.'+str(moscow_time.year)+' '+str(moscow_time.hour)+':'+str(moscow_time.minute)
+                #             moscow_time = datetime.strptime(dt_s, dt_fmt)
+                #             print(str(moscow_time.day))
+                #
+                #             if moscow_time >= res:
+                #                 print("\n\nЭммм\n\n")
+                #
+                #                 cur.execute("""DELETE FROM posts WHERE flag = 1""")
+                #                 con.commit()
+                #
+                #                 cur.execute("SELECT * FROM users")
+                #                 results = cur.fetchall()
+                #                 print(results)
+                #
+                #                 for result in results:
+                #                     print(str(result))
+                #                     print(str(result[0])+" "+str(result_post[1]))
+                #                     self.send_message(str(result[0]), str(result_post[1]))
 
                     return 'NoCommand'

@@ -51,3 +51,12 @@ def create_user(id):
 
     con.commit()
     con.close()
+
+def update_user_flag(id, flag):
+    con = sqlite3.connect('users_db.sqlite')
+    cur = con.cursor()
+
+    cur.execute("""UPDATE users SET flag = ? WHERE id = ?""", (flag, id))
+
+    con.commit()
+    con.close()
