@@ -2,12 +2,12 @@ import json
 import requests
 
 import datetime
-from datetime import datetime as DT, timedelta
-
 from datetime import datetime
 import pytz
 
 import sqlite3
+
+import admin
 
 con = sqlite3.connect('users_db.sqlite')
 
@@ -74,7 +74,7 @@ class WABot():
         if (noWelcome == False):
             welcome_string = "Информация о вебинаре\n"
         else:
-            welcome_string = """Для того что бы получить информацию о вебенаре, отправьте:\n "Хотел бы узнать о вебинаре" """
+            welcome_string = """Для того что бы получить информацию о вебенаре, отправьте:\n "О вебинаре" """
 
         return self.send_message(chatId, welcome_string)
 
@@ -99,35 +99,24 @@ class WABot():
     def processing(self):
         if self.dict_messages != []:
             for message in self.dict_messages:
-                print("\n\n"+str(message)+"\n\n")
                 if 'fromMe' in  message:
+
                     text = message['body']
                     id = message['chatId']
 
-                    #1
                     con = sqlite3.connect('users_db.sqlite')
                     cur = con.cursor()
 
-                    cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
-                    result = cur.fetchone()
+                    result = admin.select_user(id)
 
                     if result == None or result == []:
-                        cur.execute("INSERT INTO users values (?, 0)", (int(id),))
-                        con.commit()
+                        admin.create_user(id)
 
-                    cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
-                    result = cur.fetchone()
+                    result = admin.select_user(id)
 
-                    #2
-                    cur.execute("SELECT * FROM posts")
-                    resultpost = cur.fetchone()
+                    result_post = admin.select_post()
 
-
-                    cur.execute("SELECT * FROM users WHERE id=?", (int(id),))
-                    result = cur.fetchone()
-
-
-                    if text.lower() == 'хотел бы узнать о вебинаре':
+                    if text.lower() == 'о вебинаре':
                         return self.welcome(id)
 
                     elif text.lower() == '/admin':
@@ -138,7 +127,7 @@ class WABot():
                         return self.admin(id)
 
                     elif text == 'pass' and result[1] == 1:
-                        if resultpost == [] or resultpost == None or  resultpost[7] == 0:
+                        if result_post == [] or result_post == None or  result_post[7] == 0:
                             cur.execute("""UPDATE users SET flag = 2 WHERE id = ?""", (id, ))
                             con.commit()
                             return self.questionTextPost(id)
@@ -146,14 +135,14 @@ class WABot():
                         else:
                             cur.execute("""UPDATE users SET flag = 10 WHERE id = ?""", (id,))
                             con.commit()
-                            a = str('-'.join((str(resultpost[2]), str(resultpost[3]),
-                                              str(resultpost[4]), str(resultpost[5]),
-                                              str(resultpost[6]))))
+                            a = str('-'.join((str(result_post[2]), str(result_post[3]),
+                                              str(result_post[4]), str(result_post[5]),
+                                              str(result_post[6]))))
                             return self.send_message(str(result[0]), str(
-                                resultpost[1]) + "\n\n" + a + "\n\n" + 'Удалить рассылку? "Удалить"')
+                                result_post[1]) + "\n\n" + a + "\n\n" + 'Удалить рассылку? "Удалить"')
 
                     elif result[1] == 2:
-                        if resultpost == [] or resultpost == None:
+                        if result_post == [] or result_post == None:
                             #Создать с с айди и спросить о времяни
                             cur.execute("""UPDATE users SET flag = 3 WHERE id = ?""", (id,))
                             con.commit()
@@ -176,7 +165,7 @@ class WABot():
                         cur.execute("""UPDATE posts SET year=?, month=?, day=?, hour=?, minute=? WHERE id = ?""",
                                     (int(a[0]), int(a[1]), int(a[2]), int(a[3]), int(a[4]), id))
                         con.commit()
-                        return self.info(id, resultpost[1], str(text))
+                        return self.info(id, result_post[1], str(text))
 
                     elif result[1] == 4 and text.lower() == 'да':
                         cur.execute("""UPDATE users SET flag = 0 WHERE id = ?""", (id,))
@@ -215,13 +204,13 @@ class WABot():
 
                     #2
                     cur.execute("SELECT * FROM posts WHERE flag = 1")
-                    resultpost = cur.fetchone()
-                    print("\n\n"+str(resultpost)+"\n\n")
-                    if resultpost != None or resultpost != []:
-                        print(str(resultpost[7]))
-                        if resultpost[7] == 1:
+                    result_post = cur.fetchone()
+                    print("\n\n"+str(result_post)+"\n\n")
+                    if result_post != None or result_post != []:
+                        print(str(result_post[7]))
+                        if result_post[7] == 1:
 
-                            dt_s = str(resultpost[4])+'.'+str(resultpost[3])+'.'+str(resultpost[2])+' '+str(resultpost[5])+':'+str(resultpost[6])
+                            dt_s = str(result_post[4])+'.'+str(result_post[3])+'.'+str(result_post[2])+' '+str(result_post[5])+':'+str(result_post[6])
                             dt_fmt = '%d.%m.%Y %H:%M'
 
                             res = datetime.strptime(dt_s, dt_fmt)
@@ -246,7 +235,7 @@ class WABot():
 
                                 for result in results:
                                     print(str(result))
-                                    print(str(result[0])+" "+str(resultpost[1]))
-                                    self.send_message(str(result[0]), str(resultpost[1]))
+                                    print(str(result[0])+" "+str(result_post[1]))
+                                    self.send_message(str(result[0]), str(result_post[1]))
 
                     return 'NoCommand'
