@@ -121,7 +121,7 @@ class WABot():
 
                     elif text.lower() == '/admin':
 
-                        admin.update_user_flag(id, 2)
+                        admin.update_user_flag(id, 1)
 
                         return self.admin(id)
 
