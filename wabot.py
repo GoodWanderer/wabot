@@ -174,61 +174,61 @@ class WABot():
                     else:
                         return self.welcome(id, True)
 
-                    if text == 'ку':
-                        print("\n\n\n"+"Какой-то челик, ля ля ля:"+"\n\n\n")
-                        cur.execute("SELECT * FROM posts WHERE flag = 1")
-                        result = cur.fetchone()
-                        if result != None or result != []:
-                            if result[7] == 1:
-                                offset = datetime.timezone(datetime.timedelta(hours=3))
-                                now = datetime.datetime.now(offset)
-                                if result == 1 and int(now.year) >= result[2] and int(now.month) >= result[3] and int(now.day) >= result[4] and int(now.day) >= result[5] and int(now.minuten) >= result[6]:
-                                    print("\n\n\nПринт\n\n\n")
-                                    cur.execute("""DELETE posts WHERE flag = 1""")
-                                    con.commit()
-                                    con.close()
-                                else:
-                                    print("\n\n\nКакая-то фигня\n\n\n")
+                    # if text == 'ку':
+                    #     print("\n\n\n"+"Какой-то челик, ля ля ля:"+"\n\n\n")
+                    #     cur.execute("SELECT * FROM posts WHERE flag = 1")
+                    #     result = cur.fetchone()
+                    #     if result != None or result != []:
+                    #         if result[7] == 1:
+                    #             offset = datetime.timezone(datetime.timedelta(hours=3))
+                    #             now = datetime.datetime.now(offset)
+                    #             if result == 1 and int(now.year) >= result[2] and int(now.month) >= result[3] and int(now.day) >= result[4] and int(now.day) >= result[5] and int(now.minuten) >= result[6]:
+                    #                 print("\n\n\nПринт\n\n\n")
+                    #                 cur.execute("""DELETE posts WHERE flag = 1""")
+                    #                 con.commit()
+                    #                 con.close()
+                    #             else:
+                    #                 print("\n\n\nКакая-то фигня\n\n\n")
 
-                # else:
-                #     print("\n\nТест\n\n")
-                #     con = sqlite3.connect('users_db.sqlite')
-                #     cur = con.cursor()
-                #
-                #     #2
-                #     cur.execute("SELECT * FROM posts WHERE flag = 1")
-                #     result_post = cur.fetchone()
-                #     print("\n\n"+str(result_post)+"\n\n")
-                #     if result_post != None or result_post != []:
-                #         print(str(result_post[7]))
-                #         if result_post[7] == 1:
-                #
-                #             dt_s = str(result_post[4])+'.'+str(result_post[3])+'.'+str(result_post[2])+' '+str(result_post[5])+':'+str(result_post[6])
-                #             dt_fmt = '%d.%m.%Y %H:%M'
-                #
-                #             res = datetime.strptime(dt_s, dt_fmt)
-                #
-                #
-                #             moscow_time = datetime.now(pytz.timezone('Europe/Moscow'))
-                #             print(str(moscow_time))
-                #
-                #             dt_s = str(moscow_time.day)+'.'+str(moscow_time.month)+'.'+str(moscow_time.year)+' '+str(moscow_time.hour)+':'+str(moscow_time.minute)
-                #             moscow_time = datetime.strptime(dt_s, dt_fmt)
-                #             print(str(moscow_time.day))
-                #
-                #             if moscow_time >= res:
-                #                 print("\n\nЭммм\n\n")
-                #
-                #                 cur.execute("""DELETE FROM posts WHERE flag = 1""")
-                #                 con.commit()
-                #
-                #                 cur.execute("SELECT * FROM users")
-                #                 results = cur.fetchall()
-                #                 print(results)
-                #
-                #                 for result in results:
-                #                     print(str(result))
-                #                     print(str(result[0])+" "+str(result_post[1]))
-                #                     self.send_message(str(result[0]), str(result_post[1]))
+                else:
+                    print("\n\nТест\n\n")
+                    con = sqlite3.connect('users_db.sqlite')
+                    cur = con.cursor()
+
+                    #2
+                    cur.execute("SELECT * FROM posts WHERE flag = 1")
+                    result_post = cur.fetchone()
+                    print("\n\n"+str(result_post)+"\n\n")
+                    if result_post != None or result_post != []:
+                        print(str(result_post[7]))
+                        if result_post[7] == 1:
+
+                            dt_s = str(result_post[4])+'.'+str(result_post[3])+'.'+str(result_post[2])+' '+str(result_post[5])+':'+str(result_post[6])
+                            dt_fmt = '%d.%m.%Y %H:%M'
+
+                            res = datetime.strptime(dt_s, dt_fmt)
+
+
+                            moscow_time = datetime.now(pytz.timezone('Europe/Moscow'))
+                            print(str(moscow_time))
+
+                            dt_s = str(moscow_time.day)+'.'+str(moscow_time.month)+'.'+str(moscow_time.year)+' '+str(moscow_time.hour)+':'+str(moscow_time.minute)
+                            moscow_time = datetime.strptime(dt_s, dt_fmt)
+                            print(str(moscow_time.day))
+
+                            if moscow_time >= res:
+                                print("\n\nЭммм\n\n")
+
+                                cur.execute("""DELETE FROM posts WHERE flag = 1""")
+                                con.commit()
+
+                                cur.execute("SELECT * FROM users")
+                                results = cur.fetchall()
+                                print(results)
+
+                                for result in results:
+                                    print(str(result))
+                                    print(str(result[0])+" "+str(result_post[1]))
+                                    self.send_message(str(result[0]), str(result_post[1]))
 
                     return 'NoCommand'
