@@ -5,29 +5,8 @@ import datetime
 from datetime import datetime
 import pytz
 
-import sqlite3
-
 import admin
-
-con = sqlite3.connect('users_db.sqlite')
-
-cur = con.cursor()
-cur.execute("""CREATE TABLE IF NOT EXISTS users(
-                id INT,
-                flag INT
-            )""")
-
-cur2 = con.cursor()
-cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
-                id INT,                
-                sendText TEXT,
-                year INT,
-                month INT,
-                day INT,
-                hour INT,
-                minute INT,
-                flag INT
-            )""")
+import secret
 
 # def sendmessage():
 #     print("\n\n\n"+"Старт выполнения"+"\n\n\n")
@@ -51,9 +30,9 @@ class WABot():
     def __init__(self, json):
         self.json = json
         self.dict_messages = json['data']
-        self.APIUrl = 'https://api-whatsapp.io/api/'
-        self.token = 'mjhcu14sbf1ui0w1706bsxqpq191mnridkcwk7iti='
-        self.id = 'eb6be3e6-2696-4620-a34f-fff0b35940dc'
+        self.APIUrl = secret.APIUrl
+        self.token = secret.token
+        self.id = secret.id
 
     def send_requests(self, method, data):
         url = f"{self.APIUrl}{self.id}/{method}?token={self.token}"
@@ -122,7 +101,7 @@ class WABot():
 
                         return self.admin(id)
 
-                    elif result[1] == 1 and text == 'pass':
+                    elif result[1] == 1 and text == secret.password:
                         if result_post == [] or result_post == None or  result_post[7] == 0:
                             admin.update_user_flag(id, 2)
                             return self.questionTextPost(id)
