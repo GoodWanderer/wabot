@@ -8,24 +8,6 @@ import pytz
 import admin
 import secret
 
-# def sendmessage():
-#     print("\n\n\n"+"Старт выполнения"+"\n\n\n")
-#     cur.execute("SELECT * FROM posts WHERE flag = 1")
-#     result = cur.fetchone()
-#     print("Результат: "+str(result))
-#     if result != None or result != []:
-#         if result[7] == 1:
-#             offset = datetime.timezone(datetime.timedelta(hours=3))
-#             now = datetime.datetime.now(offset)
-#             if result == 1 and int(now.year) >= result[2] and int(now.month) >= result[3] and int(now.day) >= result[4] and int(now.day) >= result[5] and int(now.minuten) >= result[6]:
-#                 print("\n\n\nПринт\n\n\n")
-#                 cur.execute("""DELETE posts WHERE flag = 1""")
-#                 con.commit()
-#                 con.close()
-#             else:
-#                 print("\n\n\nВсё норм, сработает позже\n\n\n")
-
-
 class WABot():
     def __init__(self, json):
         self.json = json
@@ -55,21 +37,21 @@ class WABot():
         return self.send_requests(chatId, "Введите текст поста:")
 
     def post_time(self, chatId):
-        return self.send_requests(chatId, "Введите, через пробел, время рассылки по мск(+3):\n" +
-                                          "год-месяц-день-часы-минуты\n"+
-                                          "xxxx-xx-xx-xx-xx")
+        return self.send_requests(chatId, "Введите, через '-', время рассылки по мск (+3)\n" +
+                                          "минуты-часы-день-месяц-год:\n" +
+                                          "xx-xx-xx-xx-xxxx")
 
     def post_check(self, chatId, text, time):
         a = time.split('-')
         return self.send_requests(chatId, text+
-                                         '\n\nДата: '+str(a[0])+' '+str(a[1])+' '+str(a[2])+
-                                         '\nВремя: '+str(a[3])+' : '+str(a[4])+
+                                         '\n\nДата: '+str(a[2])+' '+str(a[3])+' '+str(a[4])+
+                                         '\nВремя: '+str(a[0])+' : '+str(a[1])+
                                          '\n\nВсё верно? "да"')
 
     def post_delete(self, chatId, a):
         return self.send_requests(chatId, str(a[1]) +
-                                         '\n\nДата: ' + str(a[2]) + ' ' + str(a[3]) + ' ' + str(a[4]) +
-                                         '\nВремя: ' + str(a[5]) + ' : ' + str(a[6]) +
+                                         '\n\nДата: ' + str(a[4]) + ' ' + str(a[5]) + ' ' + str(a[6]) +
+                                         '\nВремя: ' + str(a[2]) + ' : ' + str(a[3]) +
                                          '\n\nОтменить рассылку? "отменить"')
 
     def processing(self):
@@ -103,27 +85,22 @@ class WABot():
 
                         else:
                             admin.update_user_flag(id, 10)
-                            # a = str('-'.join((str(result_post[2]), str(result_post[3]),
-                            #                   str(result_post[4]), str(result_post[5]),
-                            #                   str(result_post[6]))))
                             return self.post_delete(id, result_post)
 
                     elif result[1] == 2:
                         if result_post == [] or result_post == None:
-                            #Создать с с айди и спросить о времяни
                             admin.update_user_flag(id, 3)
                             admin.create_post(id, text)
                             return self.post_time(id)
 
                         else:
-                            # Изменить
                             admin.update_user_flag(id, 3)
                             admin.update_post(text, id)
                             return self.post_time(id)
 
                     elif result[1] == 3:
                         admin.update_user_flag(id, 4)
-                        admin.update_post_time(text.split('-'), id)
+                        admin.update_post_time(id, text.split('-'))
 
                         return self. post_check(id, result_post[1], str(text))
 
@@ -139,22 +116,6 @@ class WABot():
                     else:
                         return self.welcome(id, True)
 
-                    # if text == 'ку':
-                    #     print("\n\n\n"+"Какой-то челик, ля ля ля:"+"\n\n\n")
-                    #     cur.execute("SELECT * FROM posts WHERE flag = 1")
-                    #     result = cur.fetchone()
-                    #     if result != None or result != []:
-                    #         if result[7] == 1:
-                    #             offset = datetime.timezone(datetime.timedelta(hours=3))
-                    #             now = datetime.datetime.now(offset)
-                    #             if result == 1 and int(now.year) >= result[2] and int(now.month) >= result[3] and int(now.day) >= result[4] and int(now.day) >= result[5] and int(now.minuten) >= result[6]:
-                    #                 print("\n\n\nПринт\n\n\n")
-                    #                 cur.execute("""DELETE posts WHERE flag = 1""")
-                    #                 con.commit()
-                    #                 con.close()
-                    #             else:
-                    #                 print("\n\n\nКакая-то фигня\n\n\n")
-
                 else:
                     result_post = admin.select_post_flag(1)
 
@@ -162,7 +123,7 @@ class WABot():
 
                         if result_post[7] == 1:
 
-                            dt_s = str(result_post[4])+'.'+str(result_post[3])+'.'+str(result_post[2])+' '+str(result_post[5])+':'+str(result_post[6])
+                            dt_s = str(result_post[4])+'.'+str(result_post[5])+'.'+str(result_post[6])+' '+str(result_post[2])+':'+str(result_post[3])
                             dt_fmt = '%d.%m.%Y %H:%M'
 
                             res = datetime.strptime(dt_s, dt_fmt)

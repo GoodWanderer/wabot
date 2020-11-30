@@ -12,11 +12,11 @@ cur2 = con.cursor()
 cur2.execute("""CREATE TABLE IF NOT EXISTS posts(
                 id INT,                
                 sendText TEXT,
-                year INT,
-                month INT,
-                day INT,
-                hour INT,
                 minute INT,
+                hour INT,
+                day INT,
+                month INT
+                year INT,
                 flag INT
             )""")
 
@@ -110,12 +110,12 @@ def update_post_flag(id, flag):
     con.commit()
     con.close()
 
-def update_post_time(a, id):
+def update_post_time(id, a):
     con = sqlite3.connect('users_db.sqlite')
     cur = con.cursor()
 
     cur.execute("""UPDATE posts SET year=?, month=?, day=?, hour=?, minute=? WHERE id = ?""",
-                (int(a[0]), int(a[1]), int(a[2]), int(a[3]), int(a[4]), id))
+                (int(a[4]), int(a[3]), int(a[2]), int(a[1]), int(a[0]), id))
 
     con.commit()
     con.close()
