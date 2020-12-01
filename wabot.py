@@ -30,7 +30,7 @@ class WABot():
             welcome_string = "Информация о вебинаре\n"
         else:
             welcome_string = """Для того что бы получить информацию о вебенаре, отправьте:\n"О вебинаре" """
-        return self.send_requests(chatId, welcome_string), self.send_requests(chatId, welcome_string, 'sendFile')
+        return  self.send_requests(chatId, welcome_string, 'sendFile'),/ self.send_requests(chatId, welcome_string)
 
     def admin_text_pas(self, chatId):
         return self.send_requests(chatId, "Введите пароль:")
