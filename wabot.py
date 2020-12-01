@@ -19,6 +19,8 @@ class WABot():
     def send_requests(self, chatId, text, method='sendMessage'):
         url = f"{self.APIUrl}{self.id}/{method}?token={self.token}"
         data = {"chatId": chatId, "body": text}
+        if method != 'sendMessage':
+            data = {"chatId": chatId, "body": secret.img, "filename": 'l.jpg',}
         headers = {'Content-type': 'application/json'}
         answer = requests.post(url, data=json.dumps(data), headers=headers)
         return answer.json()
@@ -28,7 +30,7 @@ class WABot():
             welcome_string = "Информация о вебинаре\n"
         else:
             welcome_string = """Для того что бы получить информацию о вебенаре, отправьте:\n"О вебинаре" """
-        return self.send_requests(chatId, welcome_string)
+        return self.send_requests(chatId, welcome_string, 'sendFile')
 
     def admin_text_pas(self, chatId):
         return self.send_requests(chatId, "Введите пароль:")
