@@ -95,7 +95,7 @@ class WABot():
 
                         else:
                             admin.update_user_flag(id, 3)
-                            admin.update_post(text, id)
+                            admin.update_post(id, text)
                             return self.post_time(id)
 
                     elif result[1] == 3:
