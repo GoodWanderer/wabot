@@ -20,7 +20,7 @@ class WABot():
         url = f"{self.APIUrl}{self.id}/{method}?token={self.token}"
         data = {"chatId": chatId, "body": text}
         if method != 'sendMessage':
-            data = {"chatId": chatId, "body": secret.img, "filename": 'l.jpg', "caption": text}
+            data = {"chatId": chatId, "body": secret.img, "filename": 'img.jpg'}
         headers = {'Content-type': 'application/json'}
         answer = requests.post(url, data=json.dumps(data), headers=headers)
         return answer.json()
