@@ -44,6 +44,12 @@ class WABot():
                                           "часы-минуты-день-месяц-год:\n" +
                                           "xx-xx-xx-xx-xxxx")
 
+    def post_time_false(self, chatId):
+        return self.send_requests(chatId, "Вы неверно указали текст расстлки\n\nПопробуйте ещё раз\n\n"+
+                                          "Введите, через '-', время рассылки по мск (+3)\n" +
+                                          "часы-минуты-день-месяц-год:\n" +
+                                          "xx-xx-xx-xx-xxxx")
+
     def post_check(self, chatId, text, time):
         a = time.split('-')
         return self.send_requests(chatId, text+
@@ -102,11 +108,15 @@ class WABot():
                             return self.post_time(id)
 
                     elif result[1] == 3:
-
-                        admin.update_user_flag(id, 4)
-                        admin.update_post_time(id, text.split('-'))
-
-                        return self. post_check(id, result_post[1], str(text))
+                        if len(text) >= 12 and len(text) <= 16:
+                            try:
+                                admin.update_user_flag(id, 4)
+                                admin.update_post_time(id, text.split('-'))
+                                return self. post_check(id, result_post[1], str(text))
+                            except:
+                                return self.post_time_false(id)
+                        else:
+                            return self.post_time_false(id)
 
                     elif result[1] == 4 and text.lower() == 'да':
                         admin.update_user_flag(id, 0)
