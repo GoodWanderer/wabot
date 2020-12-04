@@ -20,6 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e9d1f68e-e748-4499-a65d-51390f0237f9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/personalization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secret.py" beforeDir="false" afterPath="$PROJECT_DIR$/secret.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wabot.py" beforeDir="false" afterPath="$PROJECT_DIR$/wabot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

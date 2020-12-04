@@ -7,6 +7,7 @@ import pytz
 
 import admin
 import secret
+import personalization
 
 class WABot():
     def __init__(self, json):
@@ -20,16 +21,16 @@ class WABot():
         url = f"{self.APIUrl}{self.id}/{method}?token={self.token}"
         data = {"chatId": chatId, "body": text}
         if method != 'sendMessage':
-            data = {"chatId": chatId, "body": secret.img, "filename": 'img.jpg'}
+            data = {"chatId": chatId, "body": personalization.img, "filename": 'img.jpg'}
         headers = {'Content-type': 'application/json'}
         answer = requests.post(url, data=json.dumps(data), headers=headers)
         return answer.json()
 
     def welcome(self, chatId, noWelcome=False):
         if (noWelcome == False):
-            welcome_string = "Информация о вебинаре\n"
+            welcome_string = personalization.conference_info
         else:
-            welcome_string = """Для того что бы получить информацию о вебенаре, отправьте:\n"О вебинаре" """
+            welcome_string = personalization.welcome_text+'"'+personalization+'"'
         return  self.send_requests(chatId, welcome_string, 'sendFile'), self.send_requests(chatId, welcome_string)
 
     def admin_text_pas(self, chatId):
@@ -73,14 +74,14 @@ class WABot():
 
                     result_post = admin.select_post()
 
-                    if text.lower() == 'о вебинаре':
+                    if text == personalization.conference_info_key:
                         return self.welcome(id)
 
                     elif text.lower() == '/admin':
                         admin.update_user_flag(id, 1)
                         return self.admin_text_pas(id)
 
-                    elif result[1] == 1 and text == secret.password:
+                    elif result[1] == 1 and text == personalization.password:
                         if result_post == [] or result_post == None or  result_post[7] == 0:
                             admin.update_user_flag(id, 2)
                             return self.post_text(id)
@@ -101,6 +102,7 @@ class WABot():
                             return self.post_time(id)
 
                     elif result[1] == 3:
+
                         admin.update_user_flag(id, 4)
                         admin.update_post_time(id, text.split('-'))
 
