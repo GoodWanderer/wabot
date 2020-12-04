@@ -48,7 +48,7 @@ class WABot():
         return self.send_requests(chatId, text+
                                          '\n\nДата '+str(a[2])+'-'+str(a[3])+'-'+str(a[4])+
                                          '\nВремя: '+str(a[0])+' : '+str(a[1])+
-                                         '\n\nВсё верно?\nДля подтверждения отправьте: "да"')
+                                         '\n\nВсё верно?\nДля подтверждения отправьте: "Да"')
 
     def post_delete(self, chatId, a):
         return self.send_requests(chatId, str(a[1]) +
@@ -111,7 +111,7 @@ class WABot():
                         admin.update_post_flag(id, 1)
                         return self.send_requests(id, 'Рассылка успешно назначенна')
 
-                    elif result[1] == 10 and text.lower() == 'Отменить':
+                    elif result[1] == 10 and text.lower() == 'отменить':
                         admin.update_user_flag(id, 0)
                         admin.update_post_flag(id, 0)
                         return self.send_requests(id, 'Рассылка отменена')
