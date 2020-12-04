@@ -30,7 +30,7 @@ class WABot():
         if (noWelcome == False):
             welcome_string = personalization.conference_info
         else:
-            welcome_string = personalization.welcome_text+'"'+personalization+'"'
+            welcome_string = personalization.welcome_text+'"'+personalization.conference_info_key+'"'
         return  self.send_requests(chatId, welcome_string, 'sendFile'), self.send_requests(chatId, welcome_string)
 
     def admin_text_pas(self, chatId):
