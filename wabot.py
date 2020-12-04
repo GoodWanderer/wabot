@@ -48,13 +48,13 @@ class WABot():
         return self.send_requests(chatId, text+
                                          '\n\nДата '+str(a[2])+'-'+str(a[3])+'-'+str(a[4])+
                                          '\nВремя: '+str(a[0])+' : '+str(a[1])+
-                                         '\n\nВсё верно?\n(для подтверждения отправьте: "да")')
+                                         '\n\nВсё верно?\nДля подтверждения отправьте: "да"')
 
     def post_delete(self, chatId, a):
         return self.send_requests(chatId, str(a[1]) +
                                          '\n\nДата ' + str(a[4]) + '-' + str(a[5]) + '-' + str(a[6]) +
-                                         '\nВремя ' + str(a[2]) + ' : ' + str(a[3]) +
-                                         '\n\nОтменить рассылку?\n(для отмены отправьте: "отменить")')
+                                         '\nВремя ' + str(a[3]) + ' : ' + str(a[2]) +
+                                         '\n\nОтменить рассылку?\nДля отмены отправьте: "Отменить"')
 
     def processing(self):
         if self.dict_messages != []:
@@ -125,7 +125,7 @@ class WABot():
 
                         if result_post[7] == 1:
 
-                            dt_s = str(result_post[4])+'.'+str(result_post[5])+'.'+str(result_post[6])+' '+str(result_post[2])+':'+str(result_post[3])
+                            dt_s = str(result_post[4])+'.'+str(result_post[5])+'.'+str(result_post[6])+' '+str(result_post[3])+':'+str(result_post[2])
                             dt_fmt = '%d.%m.%Y %H:%M'
 
                             res = datetime.strptime(dt_s, dt_fmt)
