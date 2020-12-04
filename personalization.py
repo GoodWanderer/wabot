@@ -1,6 +1,6 @@
 password = 'webpack'
 
-conference_info_key = 'о вебинаре'
+conference_info_key = 'Привет'
 
 welcome_text = 'Для того что бы получить информацию о вебенаре, отправьте:\n'
 
