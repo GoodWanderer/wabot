@@ -40,21 +40,21 @@ class WABot():
 
     def post_time(self, chatId):
         return self.send_requests(chatId, "Введите, через '-', время рассылки по мск (+3)\n" +
-                                          "минуты-часы-день-месяц-год:\n" +
+                                          "часы-минуты-день-месяц-год:\n" +
                                           "xx-xx-xx-xx-xxxx")
 
     def post_check(self, chatId, text, time):
         a = time.split('-')
         return self.send_requests(chatId, text+
-                                         '\n\nДата: '+str(a[2])+' '+str(a[3])+' '+str(a[4])+
+                                         '\n\nДата '+str(a[2])+'-'+str(a[3])+'-'+str(a[4])+
                                          '\nВремя: '+str(a[0])+' : '+str(a[1])+
-                                         '\n\nВсё верно? "да"')
+                                         '\n\nВсё верно?\n(для подтверждения отправьте: "да")')
 
     def post_delete(self, chatId, a):
         return self.send_requests(chatId, str(a[1]) +
-                                         '\n\nДата: ' + str(a[4]) + ' ' + str(a[5]) + ' ' + str(a[6]) +
-                                         '\nВремя: ' + str(a[2]) + ' : ' + str(a[3]) +
-                                         '\n\nОтменить рассылку? "отменить"')
+                                         '\n\nДата ' + str(a[4]) + '-' + str(a[5]) + '-' + str(a[6]) +
+                                         '\nВремя ' + str(a[2]) + ' : ' + str(a[3]) +
+                                         '\n\nОтменить рассылку?\n(для отмены отправьте: "отменить")')
 
     def processing(self):
         if self.dict_messages != []:
@@ -111,7 +111,7 @@ class WABot():
                         admin.update_post_flag(id, 1)
                         return self.send_requests(id, 'Рассылка успешно назначенна')
 
-                    elif result[1] == 10 and text.lower() == 'отменить':
+                    elif result[1] == 10 and text.lower() == 'Отменить':
                         admin.update_user_flag(id, 0)
                         admin.update_post_flag(id, 0)
                         return self.send_requests(id, 'Рассылка отменена')

@@ -115,7 +115,7 @@ def update_post_time(id, a):
     cur = con.cursor()
 
     cur.execute("""UPDATE posts SET year=?, month=?, day=?, hour=?, minute=? WHERE id = ?""",
-                (int(a[4]), int(a[3]), int(a[2]), int(a[1]), int(a[0]), id))
+                (int(a[4]), int(a[3]), int(a[2]), int(a[0]), int(a[1]), id))
 
     con.commit()
     con.close()
