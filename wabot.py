@@ -1,6 +1,5 @@
 import json
 import requests
-
 import datetime
 from datetime import datetime
 import pytz
@@ -45,7 +44,7 @@ class WABot():
                                           "xx-xx-xx-xx-xxxx")
 
     def post_time_false(self, chatId):
-        return self.send_requests(chatId, "Вы неверно указали текст расстлки\n\nПопробуйте ещё раз\n\n"+
+        return self.send_requests(chatId, "Вы неверно указали текст рассылки\n\nПопробуйте ещё раз\n\n"+
                                           "Введите, через '-', время рассылки по мск (+3)\n" +
                                           "часы-минуты-день-месяц-год:\n" +
                                           "xx-xx-xx-xx-xxxx")
